@@ -844,7 +844,7 @@ class WorkstationsController extends Controller
     
     	$events = WsEvents::where("wsid", $wsid)->orderBy("created_at", "DESC")->get();
     	$connection = NetworkEdges::whereRaw("(target = CONCAT('ws', $workstation->id))")->first();
-    	$printPeriod = \DB::table('ws_prints')->select(\DB::raw('CONCAT(MIN(created_at), " - ", MAX(created_at)) as period'))->where('wsid', $wsid)->first();
+    	$printPeriod = \DB::table('ws_print_stats')->select(\DB::raw('CONCAT(MIN(created_at), " - ", MAX(created_at)) as period'))->where('wsid', $wsid)->first();
     	if (!empty($printPeriod)) {
     		$period = $printPeriod->period;
         } else {
