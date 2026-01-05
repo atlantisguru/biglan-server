@@ -435,13 +435,13 @@ class ApiController extends Controller
         	$newCount = 0;
         	$wsid = null;
 
-        	foreach ($entities as $entity) {
-            	if ($entity['count'] === 1) {
-                	$wsid = $wsid ?? $entity['wsid'];
-                	if ($entity['wsid'] === $wsid) {
+        	foreach ($entities as $ent) {
+            	if ($ent['count'] === 1) {
+                	$wsid = $wsid ?? $ent['wsid'];
+                	if ($ent['wsid'] === $wsid) {
                     	$count++;
                 	}
-            	} elseif ($entity['count'] === 0) {
+            	} elseif ($ent['count'] === 0) {
                 	$newCount++;
             	}
         	}
