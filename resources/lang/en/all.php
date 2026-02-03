@@ -15,7 +15,7 @@ return [
     	'required_without_all' => 'At least one of these fields is required.',
     	'regex' => 'Follow the required pattern for this field.',
     	'email' => 'A valid email address is required.',
-    	'email_not_found' => 'Email address not found.',
+		'email_not_found' => 'Email address not found.',
     	'email_token_found' => 'A reset email already sent.',
     	'min_8' => 'Minimum 8 characters needed.',
     	'string' => 'Only letter, number and other characters accepted.',
@@ -23,7 +23,6 @@ return [
     	'username_unique' => "You cannot choose this name.",
     	'email_unique' => "You cannot choose this email.",
     ],
-
 
 	'button' => [
     	'login' => 'Log In',
@@ -35,9 +34,9 @@ return [
     	'ok' => 'OK',
     	'close' => 'Close',
     	'search' => 'Search',
-    	'view' => 'View',
+		'view' => 'View',
     	'view_notification_log' => 'View Notification Log',
-    	'view_global_settings_log' => 'View Global Settings Log',
+		'view_global_settings_log' => 'View Global Settings Log',
     	'view_dashboard' => 'Dashboard View',
     	'view_stored_scripts' => 'View Stored Scripts',
     	'view_details' => 'View Details',
@@ -53,31 +52,31 @@ return [
     	'new_command' => 'New Command',
     	'new_article' => 'New Article',
     	'new_document' => 'New Document',
+		'new_notification' => 'New Notification',
     	'new_label' => 'New Label',
     	'new_intervention' => 'New Intervention',
     	'new_subnet' => 'New Subnet',
-    	'new_notification' => 'New Notification',
     	'edit' => 'Edit',
     	'add' => 'Add',
     	'add_new' => 'Add New',
     	'run' => 'Run',
     	'create' => 'Create',
-    	'create_new_notification' => 'Create New Notification',
+		'create_new_notification' => 'Create New Notification',
     	'register' => 'Register',
     	'refresh' => 'Refresh',
     	'refresh_data' => 'Refresh Data',
     	'read_more' => 'Read More',
-    	'upload' => 'Upload',
+		'upload' => 'Upload',
     	'download' => 'Download',
     	'collect_data' => 'Collect Data',	
 		'update_data' => 'Update Data',
     	'create_filter' => 'Create Filter',
-    	'yes' => 'Yes',
+		'yes' => 'Yes',
     	'no' => 'No',
     	'activate' => 'Activate',
     	'deactivate' => 'Deactivate',
     	'back_global_settings' => 'Back to Global Settings',
-    	'global_settings_not_found' => 'There is no global setting option yet.',
+		'global_settings_not_found' => 'There is no global setting option yet.',
     	'global_settings_log_not_found' => 'There are no global settings events yet.',
     ],
 	
@@ -99,7 +98,7 @@ return [
     	'global_settings' => 'Global Settings',
     	'username' => ':username',
     	'my_settings' => 'My Settings',
-    	'logout' => 'Logout',
+		'logout' => 'Logout',
     	'about' => 'About',
     	'help' => 'Help',
     	'users' => 'Users',
@@ -119,7 +118,7 @@ return [
 		'start_typing' => 'Start typing...',
     	'save_this_suggestion' => 'Save this as a future suggestion',
     	'delete_this_suggestion' => 'Delete this suggestion',
-    	'env_master_key_warning' => 'In the .env file, set the value of the MASTER_KEY. (MASTER_KEY=[32 characters (A-Z,a-z,0-9)].',
+    	'env_master_key_warning' => 'In the .env file, set the value of the MASTER_KEY. (MASTER_KEY=[32 characters (A-Z,a-z,0-9)]).',
     ],
 
 	'dashboard' => [
@@ -158,7 +157,7 @@ return [
 		'friday' => 'Friday',
 		'saturday' => 'Saturday',
 		'sunday' => 'Sunday',
-      	'add_module' => 'Add Block',
+		'add_module' => 'Add Block',
     	'block_type' => 'Block Type',
     	'block_content' => 'Block Content',
     	'empty' => 'Empty',
@@ -171,16 +170,16 @@ return [
     	'filter_uptime_more' => 'Uptime more than :days day(s)',
     	'filter_cpu_age_less' => 'CPU age less than :age year(s)',
     	'filter_cpu_age_more' => 'CPU age more than :age year(s)',
-    	'filter_cpu_age_exactly' => 'CPU age exactly :age year(s) old',
+		'filter_cpu_age_exactly' => 'CPU age exactly :age year(s) old',
     	'filter_memory_less' => 'Memory amount less than :memoryGB',
     	'filter_memory_more' => 'Memory amount more than :memoryGB',
     	'filter_memory_exactly' => 'Memory amount exactly :memoryGB',
     	'filter_os_drive_free_space_less_or_equal' => 'Free disk space on the system drive is less than or equal :spaceGB',
-    	'filter_brand_contains' => 'Brand, Model contains ":value"',
+		'filter_brand_contains' => 'Brand, Model contains ":value"',
     	'filter_brand_not_contains' => 'Brand, Model not contains ":value"',
     	'filter_brand_exactly' => 'Brand, Model exactly ":value"',
-    	'filter_hostname_contains' => 'Hostname contains ":value"',
-    	'filter_hostname_not_contains' => 'Hostname not contains ":value"',
+		'filter_hostname_contains' => 'Hostname contains ":value"',
+		'filter_hostname_not_contains' => 'Hostname not contains ":value"',
     	'filter_hostname_exactly' => 'Hostname exactly ":value"',
     	'filter_workgroup_contains' => 'Workgroup contains ":value"',
     	'filter_workgroup_not_contains' => 'Workgroup not contains ":value"',
@@ -194,22 +193,21 @@ return [
     	'filter_osupdate_outdated' => 'Operating System not updated since :months month(s)',
     	'filter_admin_rights' => 'Users have admin rights',
     	'filter_has_any_labels' => 'Has any of these label(s): :labels',
-    	'filter_has_all_labels' => 'Has all of these label(s): :labels',
+		'filter_has_all_labels' => 'Has all of these label(s): :labels',
     	'filter_not_has_any_labels' => 'Does not have any of these label(s): :labels',
     	'filter_not_has_all_labels' => 'Does not have all of these label(s): :labels',
     	'filter_has_ipv6' => 'Has an IPv6 address',
     	'filter_ossupport_ended' => 'Operating System support ended by the manufacturer',
     	'filter_are_you_sure_delete' => 'Are you sure you want to delete this filter?',
-    	
     ],
 
 	'workstations' => [
     	'workstation' => 'Workstation',
-    	'workstations' => 'Workstations',
-    	'name' => 'Name',
-    	'alias' => 'Alias',
+		'workstations' => 'Workstations',
+		'name' => 'Name',
+		'alias' => 'Alias',
     	'hostname' => 'Hostname',
-    	'workgroup' => 'Workgroup',
+		'workgroup' => 'Workgroup',
 		'last_online' => 'Last Online',
 		'os_version' => 'OS version',
 		'last_os_update' => 'Last Updated',
@@ -234,7 +232,7 @@ return [
     	'add_connection' => 'Add Connection',
     	'no_information_found' => 'No available information found.',
     	'are_you_sure_delete_connection' => "Are you sure you want to delete this connection?",
-    	'events' => 'Events',
+		'events' => 'Events',
     	'interventions' => 'Interventions',
     	'consol' => 'Console',
     	'suggestions' => 'Suggestions',
@@ -260,10 +258,10 @@ return [
     	'yyyymmdd' => 'YYYY-MM-DD',
     	'operating_system' => 'Operating System',
     	'hyberboot_active' => 'Hyberboot is active!',
-    	'os_activated' => 'OS activated.',
+		'os_activated' => 'OS activated.',
     	'os_not_activated' => 'OS not activated.',
     	'last_os_update_search' => 'Update Last Searched',
-    	'last_boot_time' => 'Last Boot Time',
+		'last_boot_time' => 'Last Boot Time',
     	'boot_time' => 'Boot Time',
     	'service_started' => 'Service Started',
     	'os_partition_size' => 'OS Partition Size',
@@ -344,12 +342,12 @@ return [
     	'filter_laptop' => 'Laptop',
     	'filter_server' => 'Server',
     	'filter_labels' => 'the following labels',
-    	'filter_any_of_them' => 'ANY OF (OR)',
-    	'filter_all_of_them' => 'ALL OF (AND)',
+		'filter_any_of_them' => 'ANY OF (OR)',
+		'filter_all_of_them' => 'ALL OF (AND)',
     	'filter_has_ipv6' => 'Has IPv6 address.',
     	'filter_serial_missing' => 'Does not have a serial number.',
     	'filter_inventory_missing' => 'Does not have an inventory ID.',
-    	'filter_has_admin_account' => 'Users have admin rights. (Except listed in the Global Settings)',
+		'filter_has_admin_account' => 'Users have admin rights. (Except listed in the Global Settings)',
     	'filter_support_ended' => 'The support of the Operating System ended by the manufacturer.',
     	'filter_offline_since' => 'Offline since ',
     	'filter_days' => 'day(s)',
@@ -364,7 +362,6 @@ return [
     	'monthly_pages' => 'Number of Pages (30 days)',
     	'prints' => 'Prints',
     	'pages' => 'Pages',
-    
     ],
 
 	'subnet' => [
@@ -377,8 +374,6 @@ return [
     	'ip_mask' => 'Subnet IP/Decimal Mask',
     	'gateway' => 'Gateway',
     	'short_description' => 'Short Description',
-    	
-    
     ],
 
 	'notification_center' => [
@@ -395,7 +390,7 @@ return [
     	'description' => 'Description',
     	'value' => 'Value',
     	'active' => 'Active',
-    	'alert' => 'Alert',
+		'alert' => 'Alert',
     	'idle' => 'Idle',
     	'socket_polling' => 'Socket Polling',
     	'socket_polling_description' => 'The goal is to reach the port of the given IP successfully. Otherwise triggers an alert.',
@@ -406,8 +401,8 @@ return [
     	'mass_heartbeat_loss' => 'Mass Heartbeat Loss',
     	'mass_heartbeat_loss_description' => 'The unreachable workstations in the same 2 minutes timeframe must be less than the given number in the parameters. Otherwise triggers an alert.',
     	'biglan_command' => 'BigLan Command',
-    	'biglan_command_description' => 'The given arithmetic expression or comparison in the Parameters must be true for the result of the given Command to the specific workstation identified with WSID. Otherwise triggers an alert.',
-    	'snmp_description' => 'The given arithmetic expression or comparison in the Parameters must be true for the value of the given OID code queried from the given IP address. Otherwise triggers an alert.',
+		'biglan_command_description' => 'The given arithmetic expression or comparison in the Parameters must be true for the result of the given Command to the specific workstation identified with WSID. Otherwise triggers an alert.',
+		'snmp_description' => 'The given arithmetic expression or comparison in the Parameters must be true for the value of the given OID code queried from the given IP address. Otherwise triggers an alert.',
     	'http_status_code' => 'HTTP Status Code',
     	'http_status_code_description' => 'The given arithmetic expression or comparison in the Parameters must be true. Otherwise triggers an alert.',
     	'website' => 'Website Url',
@@ -428,16 +423,15 @@ return [
     	'last_value' => 'Last Value',
     	'registered' => 'Registered',
     	'last_changed' => 'Last Changed',
-    	'events' => 'Events',
+		'events' => 'Events',
     	'status_changed' => ':notification status changed to :status.',
     	'status_changed_with_value' => ':notification status changed to :status. (:value)',
     	'unit' => 'Unit',
-    
     ],
 
 	'network_printers' => [
     	'network_printers' => 'Network Printers',
-    	'network_printer' => 'Network Printer',
+		'network_printer' => 'Network Printer',
     	'new_network_printer' => 'New Network Printer',
     	'name' => 'Name',
     	'brand_model' => 'Brand, Model',
@@ -451,7 +445,7 @@ return [
     	'incompatible_toner_ink' => 'Incompatible Toner/Ink',
     	'network_printer_not_found' => 'Network Printer not found.',
     	'data_sheet' => 'Datasheet',
-    	'events' => 'Events',
+		'events' => 'Events',
     	'statistics' => 'Statistics',
     	'black_toner_ink_level' => 'Blank Toner/Ink',
     	'cyan_toner_ink_level' => 'Cyan Toner/Ink',
@@ -467,11 +461,10 @@ return [
     	'last_updated' => 'Last Updated',
     	'date_time' => 'Date, Time',
     	'event' => 'Event',
-    	
     ],
-	
+
 	'network_devices' => [
-    	'network_devices' => 'Network Devices',
+		'network_devices' => 'Network Devices',
     	'network_device' => 'Network Device',
     	'new_network_device' => 'New Network Device',
     	'helper' => '2x click on cell to Edit, Shift+Enter to Save, Escape to Cancel',
@@ -483,9 +476,8 @@ return [
     	'mac_address' => 'MAC Address',
     	'ports' => 'Num. of Ports',
     	'speed' => 'Speed',
-    	'network' => 'Network',
+		'network' => 'Network',
     	'actions' => 'Actions',
-    
     ],
 
 	'topology' => [
@@ -502,7 +494,6 @@ return [
     	'monomode_connection' => 'Monomode conn. start',
     	'multimode_connection' => 'Multimode conn. start',
     	'delete_connection' => 'Delete connection...',
-    	
     ],
 
 	'command_center' => [
@@ -515,12 +506,12 @@ return [
     	'progress' => 'Progress',
     	'details' => 'Details',
     	'emergency_stop' => 'Emergency Stop',
-    	'no_command_found' => 'No command found.',
+		'no_command_found' => 'No command found.',
     	'interrupted' => 'Interrupted',
     	'predefined_scripts' => 'Predefined Scripts',
     	'select_script' => 'Select a Script',
     	'notes' => 'Notes',
-    	'workstations' => 'Workstations',
+		'workstations' => 'Workstations',
     	'workstation' => 'Workstation',
     	'command_details' => 'Command Details',
     	'no_script_selected' => 'Script must be selected.',
@@ -531,7 +522,7 @@ return [
     	'no_workstation_selected' => 'At least 1 workstation must be selected.',
     	'no_command_found' => 'Command not found.',
     	'edit_not_possible' => 'Cannot change command because workstations started to process it.',
-    	'results' => 'Results',
+		'results' => 'Results',
     	'result' => 'Result',
     	'date_and_time' => 'Date/Time',
     	'delete_script_from_database' => 'Delete Script from Database',
@@ -553,15 +544,14 @@ return [
     	'content' => 'Content',
     	'filter' => 'Filter...',
     	'category_name' => 'Category Name',
-    	'comment' => 'Comment',
+		'comment' => 'Comment',
     	'comments' => 'Comments',
     	'print' => 'Print',
     	'edit' => 'Edit',
     	'send' => 'Send',
     	'your_comment' => 'Your Comment',
     	'tags' => 'Tags',
-    	
-    	
+		
     ],
 
 	'documents' => [
@@ -579,8 +569,7 @@ return [
     	'archives' => 'Archives',
     	'restore' => 'Restore',
     	'select_file' => 'Select File',	
-    	'document_name' => 'Document Name',	
-    		
+    	'document_name' => 'Document Name',
     
     ],
 
@@ -592,8 +581,8 @@ return [
     	'helper' => '2x click on cell to Edit, Shift+Enter to Save, Escape to Cancel',
     	'not_found_os' => 'Operating System not found.',
     	'warning' => 'Warning!',
-    	'end_of_support_needed' => 'The End of Support must be filled to display the warning for outdated operating systems.',
-    	'end_of_support_reached' => ':os_name support ended at :date!',
+		'end_of_support_needed' => 'The End of Support must be filled to display the warning for outdated operating systems.',
+		'end_of_support_reached' => ':os_name support ended at :date!',
     ],
 
 	'user_settings' => [
@@ -638,10 +627,11 @@ return [
     	'save' => 'Save',
     	'reset_success' => 'Password updated successfully.',
     ],
-	
+
 	'downloads' => [
     	'downloads' => 'Downloads',
     	'upload' => 'Upload',
+		'download_not_found' => 'No files yet.',
     	'back_to_login' => 'Back to Login',
     	'64bit_system' => 'This computer: 64-bit system',
     	'32bit_system' => 'This computer: 32-bit system',
@@ -674,7 +664,7 @@ return [
     	'are_you_sure_delete_update' => 'Are you sure you want to delete this update?',
     	'are_you_sure_deploy_update' => 'Are you sure you want to deploy this update?',
     	'are_you_sure_revoke_update' => 'Are you sure you want to revoke this update?',
-    		
+
     ],
 
 	'about' => [
@@ -699,9 +689,9 @@ return [
     	'username' => 'Username',
     	'email' => 'Email',
     	'last_login' => 'Last Login',
-     	'permissions' => 'Permissions',
+		'permissions' => 'Permissions',
     	'activities' => 'Activities',
-   		'disable' => 'Disable',
+		'disable' => 'Disable',
     	'enable' => 'Enable',
 		'user_permissions' => 'Permissions of :username',
     	'user_activities' => 'Activities of :username',
@@ -712,13 +702,13 @@ return [
     	'user_activities_info' => 'Details',
     	'user_permission_read_blocks' => 'View Blocks',
     	'user_permission_write_blocks' => 'Create Blocks',
-    	'user_permission_read_eventstream' => 'View Eventlog',
+		'user_permission_read_eventstream' => 'View Eventlog',
     	'user_permission_read_interventionstream' => 'View Interventions',
     	'user_permission_write_intervention' => 'Create Intervention',
     	'user_permission_read_intervention_suggestions' => 'View Intervention Suggestions',
-    	'user_permission_read_workstations' => 'View Workstations',
-    	'user_permission_read_workstation' => 'View Workstation',
-    	'user_permission_write_workstation' => 'Create/Edit Workstation',
+		'user_permission_read_workstations' => 'View Workstations',
+		'user_permission_read_workstation' => 'View Workstation',
+		'user_permission_write_workstation' => 'Create/Edit Workstation',
     	'user_permission_write_workstation_command' => 'Send Command to Workstation',
     	'user_permission_delete_workstation' => 'Delete Workstation',
     	'user_permission_read_subnetworks' => 'View IP Table',
@@ -772,7 +762,7 @@ return [
     	'user_permission_revoke_api_tokens' => 'Revoke API Tokens',
     	'forgot_password_email_sent_out' => 'An email has been sent. Click the link to set your new password.',
     	'set_new_password_subject' => 'Set a new password.',
-    
+		
     ],
 
 	'global_settings' => [
@@ -797,7 +787,7 @@ return [
     	'name' => 'Name',
     	'token' => 'Token',
     	'max_uses' => 'Max. Num. of Uses',
-    	'max_uses_helper' => 'Optional. Leave blank for unlimited uses.',
+		'max_uses_helper' => 'Optional. Leave blank for unlimited uses.',
     	'expires' => 'Expiration Date and Time',
     	'expires_helper' => 'Optional. Leave blank if it should never expire.',
     	'active' => 'Active',
@@ -816,7 +806,7 @@ return [
     	'hu' => 'Magyar',
     	'en' => 'English',
     	'es' => 'Espanol',
-    
+		
     ],
 
 ];
