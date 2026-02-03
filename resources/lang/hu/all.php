@@ -15,7 +15,7 @@ return [
     	'required_without_all' => 'Legalább az egyik mező kitöltése kötelező.',
     	'regex' => 'A megadott mintázatnak megfelelően add meg az értéket.',
     	'email' => 'Érvényes email címet adj meg.',
-    	'email_not_found' => 'Az email cím nem található.',
+		'email_not_found' => 'Az email cím nem található.',
     	'email_token_found' => 'Egy visszaállító email már kiküldésre került.',
     	'min_8' => 'Minimum 8 karakternek kell lennie.',
     	'string' => 'Csak betűk, számok és egyéb karakterek lehetnek.',
@@ -34,8 +34,9 @@ return [
     	'ok' => 'OK',
     	'close' => 'Bezárás',
     	'search' => 'Keresés',
-    	'view' => 'Megtekintés',
+		'view' => 'Megtekintés',
     	'view_notification_log' => 'Felügyeleti események',
+		'view_global_settings_log' => 'Globális beállítások eseménynapló megtekintése',
     	'view_dashboard' => 'Dashboard nézet',
     	'view_stored_scripts' => 'Tárolt szkriptek',
     	'view_details' => 'Részletek',
@@ -51,7 +52,7 @@ return [
     	'new_command' => 'Új parancs',
     	'new_article' => 'Új bejegyzés',
     	'new_document' => 'Új dokumentum',
-    	'new_notification' => 'Új felügyelet',
+		'new_notification' => 'Új felügyelet',
     	'new_label' => 'Új címke',
     	'new_intervention' => 'Új beavatkozás',
     	'new_subnet' => 'Új alhálózat',
@@ -60,20 +61,23 @@ return [
     	'add_new' => 'Új hozzáadása',
     	'run' => 'Futtatás',
     	'create' => 'Létrehozás',
+		'create_new_notification' => 'Új felügyelet létrehozása',
     	'register' => 'Regisztráció',
     	'refresh' => 'Frissítés',
     	'refresh_data' => 'Adatok frissítése',
     	'read_more' => 'Tovább olvasom',
-    	'upload' => 'Feltöltés',
+		'upload' => 'Feltöltés',
     	'download' => 'Letöltés',
     	'collect_data' => 'Adatok gyűjtése',
-    	'update_data' => 'Adatok frissítése',
+		'update_data' => 'Adatok frissítése',
     	'create_filter' => 'Szűrő létrehozása',
 		'yes' => 'Igen',
     	'no' => 'Nem',
     	'activate' => 'Aktiválás',
     	'deactivate' => 'Inaktiválás',
     	'back_global_settings' => 'Vissza a Globális Beállításokhoz',
+		'global_settings_not_found' => 'Még nincs globális beállítási lehetőség.',
+    	'global_settings_log_not_found' => 'Még nincs globális beállítással kapcsolatos esemény.',
     ],
 	
 	'nav' => [
@@ -94,14 +98,13 @@ return [
     	'global_settings' => 'Globális Beállítások',
     	'username' => ':username',
     	'my_settings' => 'Beállításaim',
-    	'logout' => 'Kijelentkezés',
+		'logout' => 'Kijelentkezés',
     	'about' => 'Névjegy',
     	'help' => 'Súgó',
     	'users' => 'Felhasználók',
     	'downloads' => 'Letöltések',
     	'updates' => 'Frissítések',
     	'api_tokens' => 'API Tokenek',
-    
     ],
 	
 	'layout' => [
@@ -115,7 +118,7 @@ return [
 		'start_typing' => 'Kezdj el gépelni...',
     	'save_this_suggestion' => 'Mentés a jövőbeni javaslatokhoz',
     	'delete_this_suggestion' => 'Törlés a javaslatok közül',
-    	'env_master_key_warning' => 'Az .env fájlban add meg a MASTER_KEY értékét. (MASTER_KEY=[32 karakter (A-Z,a-z,0-9)].',
+    	'env_master_key_warning' => 'Az .env fájlban add meg a MASTER_KEY értékét. (MASTER_KEY=[32 karakter (A-Z,a-z,0-9)]).',
     ],
 
 	'dashboard' => [
@@ -154,7 +157,7 @@ return [
 		'friday' => 'Péntek',
 		'saturday' => 'Szombat',
 		'sunday' => 'Vasárnap',
-    	'add_module' => 'Blokk hozzáadása',
+		'add_module' => 'Blokk hozzáadása',
     	'block_type' => 'Blokk típusa',
     	'block_content' => 'Blokk tartalma',
     	'empty' => 'Üres',
@@ -167,16 +170,16 @@ return [
     	'filter_uptime_more' => 'Üzemidő több, mint :days nap',
     	'filter_cpu_age_less' => 'CPU kora kevesebb, mint :age év',
     	'filter_cpu_age_more' => 'CPU kora több. mint :age év',
-    	'filter_cpu_age_exactly' => 'CPU kora pontosan :age év',
+		'filter_cpu_age_exactly' => 'CPU kora pontosan :age év',
     	'filter_memory_less' => 'Memória mennyisége kevesebb, mint :memoryGB',
     	'filter_memory_more' => 'Memória mennyisége több, mint :memoryGB',
     	'filter_memory_exactly' => 'Memória mennyisége pontosan :memoryGB',
     	'filter_os_drive_free_space_less_or_equal' => 'Szabad lemezterület a rendszermeghajtón pontosan vagy kevesebb, mint :spaceGB',
-    	'filter_brand_contains' => 'Márka, típus tartalmaz ":value" kifejezést',
+		'filter_brand_contains' => 'Márka, típus tartalmaz ":value" kifejezést',
     	'filter_brand_not_contains' => 'Márk, típus nem tartalmaz ":value" kifejezést',
     	'filter_brand_exactly' => 'Márka, típus pontosan ":value"',
-    	'filter_hostname_contains' => 'Hosztnév tartalmaz ":value" kifejezést',
-    	'filter_hostname_not_contains' => 'Hosztnév nem tartalmaz ":value" kifejezést',
+		'filter_hostname_contains' => 'Hosztnév tartalmaz ":value" kifejezést',
+		'filter_hostname_not_contains' => 'Hosztnév nem tartalmaz ":value" kifejezést',
     	'filter_hostname_exactly' => 'Hosztnév pontosan ":value"',
     	'filter_workgroup_contains' => 'Munkacsoport neve tartalmaz ":value" kifejezést',
     	'filter_workgroup_not_contains' => 'Munkacsoport neve nem tartalmaz ":value" kifejezést',
@@ -190,21 +193,19 @@ return [
     	'filter_osupdate_outdated' => 'Op.rendszer nem frissült több, mint :months hónapja',
     	'filter_admin_rights' => 'A felhasználók adminisztrátori jogosultságokkal rendelkeznek',
     	'filter_has_any_labels' => 'Rendelkezik valamelyik címkével: :labels',
-    	'filter_has_all_labels' => 'Rendelkezik az összes ilyen címkével: :labels',
+		'filter_has_all_labels' => 'Rendelkezik az összes ilyen címkével: :labels',
     	'filter_not_has_any_labels' => 'Nem rendelkezik valamelyik címkével: :labels',
     	'filter_not_has_all_labels' => 'Nem rendelkezik az összes ilyen címkével: :labels',
     	'filter_has_ipv6' => 'IPv6 címmel rendelkezik',
     	'filter_ossupport_ended' => 'Az op.rendszert támogatását a gyártó befejezte',
     	'filter_are_you_sure_delete' => 'Biztos, hogy törölni szeretnéd ezt a szűrőt?',
-    	
-    
     ],
 
 	'workstations' => [
     	'workstation' => 'Munkaállomás',
 		'workstations' => 'Munkaállomások',
 		'name' => 'Név',
-    	'alias' => 'Megnevezés',
+		'alias' => 'Megnevezés',
     	'hostname' => 'Hosztnév',
 		'workgroup' => 'Munkacsoport',
 		'last_online' => 'Utoljára online',
@@ -231,7 +232,7 @@ return [
     	'add_connection' => 'Kapcsolat hozzáadása',
     	'no_information_found' => 'Nincs elérhető kapcsolati adat.',
     	'are_you_sure_delete_connection' => "Biztos, hogy törlöd a kapcsolati adatot?",
-    	'events' => 'Események',
+		'events' => 'Események',
     	'interventions' => 'Beavatkozások',
     	'consol' => 'Konzol',
     	'suggestions' => 'Javaslatok',
@@ -257,10 +258,10 @@ return [
     	'yyyymmdd' => 'ÉÉÉÉ-HH-NN',
     	'operating_system' => 'Operációs rendszer',
     	'hyberboot_active' => 'Gyors rendszerindítás aktív!',
-    	'os_activated' => 'Op.rendszer aktiválva.',
+		'os_activated' => 'Op.rendszer aktiválva.',
     	'os_not_activated' => 'Op.rendszer nincs aktiválva.',
     	'last_os_update_search' => 'Frissítés keresve',
-    	'last_boot_time' => 'Utolsó teljes rendszerindítás',
+		'last_boot_time' => 'Utolsó teljes rendszerindítás',
     	'boot_time' => 'Boot-idő',
     	'service_started' => 'Szolg. indulása',
     	'os_partition_size' => 'OS partíció mérete',
@@ -341,12 +342,12 @@ return [
     	'filter_laptop' => 'Laptop',
     	'filter_server' => 'Szerver',
     	'filter_labels' => 'a következő címkéknek',
-    	'filter_any_of_them' => 'BÁRMELYIKÉT (VAGY)',
-    	'filter_all_of_them' => 'MINDEGYIKÉT (ÉS)',
+		'filter_any_of_them' => 'BÁRMELYIKÉT (VAGY)',
+		'filter_all_of_them' => 'MINDEGYIKÉT (ÉS)',
     	'filter_has_ipv6' => 'IPv6 címmel rendelkezik.',
     	'filter_serial_missing' => 'Nincs sorozatszáma.',
     	'filter_inventory_missing' => 'Nincs leltári száma.',
-    	'filter_has_admin_account' => 'A felhasználók adminisztrátori joggal rendelkeznek. (Kivéve a Globális Beállításokban meghatározott listában szereplő nevek)',
+		'filter_has_admin_account' => 'A felhasználók adminisztrátori joggal rendelkeznek. (Kivéve a Globális Beállításokban meghatározott listában szereplő nevek)',
     	'filter_support_ended' => 'Az operációs rendszer támogatását a gyártó befejezte.',
     	'filter_offline_since' => 'Nem jelentkezett több, mint ',
     	'filter_days' => 'nap',
@@ -363,7 +364,6 @@ return [
     	'pages' => 'oldal',
     ],
 
-	
 	'subnet' => [
     	'ip_table' => 'IP Tábla',
     	'no_subnet_found' => 'Nem található alhálózat.',
@@ -374,7 +374,6 @@ return [
     	'ip_mask' => 'Azonosító IP/Decimális maszk',
     	'gateway' => 'Átjáró',
     	'short_description' => 'Rövid leírás',
-    
     ],
 
 	'notification_center' => [
@@ -391,7 +390,7 @@ return [
     	'description' => 'Leírás',
     	'value' => 'Érték',
     	'active' => 'Aktív',
-    	'alert' => 'Riasztásban',
+		'alert' => 'Riasztásban',
     	'idle' => 'Nyugalomban',
     	'socket_polling' => 'Socket Polling',
     	'socket_polling_description' => 'A cél a megadott IP portjának sikeres elérése. Egyébként riasztást vált ki.',
@@ -402,8 +401,8 @@ return [
     	'mass_heartbeat_loss' => 'Tömeges életjel-kimaradás',
     	'mass_heartbeat_loss_description' => 'Az ugyanabban a 2 percben elérhetetlenné vált munkaállomások száma kevesebb kell legyen, mint a Paraméterekben megadott szám. Egyébként riasztást vált ki.',
     	'biglan_command' => 'BigLan parancs',
-    	'biglan_command_description' => 'A Paraméterekben megadott azonosítójú munkaállomáson(wsid) a meghatározott Parancs(command) eredményére futtatott aritmetikai műveletnek vagy összehasonlításnak(expression) igaznak kell lennie. Egyébként riasztást vált ki.',
-    	'snmp_description' => 'A Paraméterekben megadott aritmetikai kifejezésnek vagy összehasonlításnak igaznak kell lennie a megadott IP címen lekérdezett OID kód értékére. Egyébként riasztást vált ki.',
+		'biglan_command_description' => 'A Paraméterekben megadott azonosítójú munkaállomáson(wsid) a meghatározott Parancs(command) eredményére futtatott aritmetikai műveletnek vagy összehasonlításnak(expression) igaznak kell lennie. Egyébként riasztást vált ki.',
+		'snmp_description' => 'A Paraméterekben megadott aritmetikai kifejezésnek vagy összehasonlításnak igaznak kell lennie a megadott IP címen lekérdezett OID kód értékére. Egyébként riasztást vált ki.',
     	'http_status_code' => 'HTTP Státusz Kód',
     	'http_status_code_description' => 'A Paraméterekben megadott aritmetikai kifejezésnek vagy összehasonlításnak igaznak kell lennie. Egyébként riasztást vált ki.',
     	'website' => 'Weboldal url',
@@ -424,16 +423,15 @@ return [
     	'last_value' => 'Utolsó érték',
     	'registered' => 'Regisztrálva',
     	'last_changed' => 'Utolsó módosítás',
-    	'events' => 'Események',
+		'events' => 'Események',
     	'status_changed' => 'A(z) :notification állapota :status.',
     	'status_changed_with_value' =>   'A(z) :notification állapota :status. (:value)',
     	'unit' => 'Mértékegység',
-    
     ],
 
 	'network_printers' => [
     	'network_printers' => 'Hálózati nyomtatók',
-    	'network_printer' => 'Hálózati nyomtató',
+		'network_printer' => 'Hálózati nyomtató',
     	'new_network_printer' => 'Új hálózati nyomtató',
     	'name' => 'Név',
     	'brand_model' => 'Márka, Típus',
@@ -447,7 +445,7 @@ return [
     	'incompatible_toner_ink' => 'Inkompatibilis toner/tinta',
     	'network_printer_not_found' => 'Nincs hálózati nyomtató rögzítve.',
     	'data_sheet' => 'Adatlap',
-    	'events' => 'Események',
+		'events' => 'Események',
     	'statistics' => 'Statisztikák',
     	'black_toner_ink_level' => 'Fekete toner/tinta',
     	'cyan_toner_ink_level' => 'Cián toner/tinta',
@@ -466,7 +464,7 @@ return [
     ],
 
 	'network_devices' => [
-    	'network_devices' => 'Hálózati eszközök',
+		'network_devices' => 'Hálózati eszközök',
     	'network_device' => 'Hálózati eszköz',
     	'new_network_device' => 'Új hálózati eszköz',
     	'helper' => '2x kattintás a cellára a szerkesztéshez, Shift+Enter a mentéshez, Escape a kilépéshez',
@@ -478,9 +476,8 @@ return [
     	'mac_address' => 'MAC cím',
     	'ports' => 'Portok száma',
     	'speed' => 'Sebesség',
-    	'network' => 'Hálózati kapcsolat',
+		'network' => 'Hálózati kapcsolat',
     	'actions' => 'Műveletek',
-    
     ],
 
 	'topology' => [
@@ -496,8 +493,7 @@ return [
     	'utp_connection' => 'UTP innen',
     	'monomode_connection' => 'Monomódus innen',
     	'multimode_connection' => 'Multimódus innen',
-    	'delete_connection' => 'Törlés innen...',
-    	
+    	'delete_connection' => 'Törlés innen...',	
     ],
 
 	'command_center' => [
@@ -510,12 +506,12 @@ return [
     	'progress' => 'Feldolgozottság',
     	'details' => 'Részletek',
     	'emergency_stop' => 'Vészleállítás',
-    	'no_command_found' => 'Még nincs rögzített parancs.',
+		'no_command_found' => 'Még nincs rögzített parancs.',
     	'interrupted' => 'Megszakítva',
     	'predefined_scripts' => 'Előre definiált szkriptek',
     	'select_script' => 'Válassz egy szkriptet!',
     	'notes' => 'Megjegyzések',
-    	'workstations' => 'Munkaállomások',
+		'workstations' => 'Munkaállomások',
     	'workstation' => 'Munkaállomás',
     	'command_details' => 'Parancs részletei',
     	'no_script_selected' => 'Egy szkriptet ki kell választani.',
@@ -526,7 +522,7 @@ return [
     	'no_workstation_selected' => 'Nincs kiválasztva munkaállomás',
     	'no_command_found' => 'Ez a parancs nem található.',
     	'edit_not_possible' => 'Ez a parancs már nem szerkeszthető, mert a munkaállomások megkezdték a feldolgozását.',
-    	'results' => 'Eremények',
+		'results' => 'Eremények',
     	'result' => 'Eredmény',
     	'date_and_time' => 'Dátum/Idő',
     	'delete_script_from_database' => 'Szkript törlése adatbázisból',
@@ -548,15 +544,14 @@ return [
     	'content' => 'Tartalom',
     	'filter' => 'Szűrés...',
     	'category_name' => 'Kategória neve',
-    	'comment' => 'Hozzászólás',
+		'comment' => 'Hozzászólás',
     	'comments' => 'Hozzászólások',
     	'print' => 'Nyomtatás',
     	'edit' => 'Szerkesztés',
     	'send' => 'Beküldés',
     	'your_comment' => 'Hozzászólásod',
     	'tags' => 'Témakörök',
-    	
-    	
+		
     ],
 
 	'documents' => [
@@ -586,13 +581,9 @@ return [
     	'helper' => '2x kattintás a cellára a szerkesztéshez, Shift+Enter a mentéshez, Escape a kilépéshez',
     	'not_found_os' => 'Még nincs operációs rendszer kigyűjtve.',
     	'warning' => 'Figyelmezetetés!',
-    	'end_of_support_needed' => 'Az operációs rendszer támogatásának végét ki kell tölteni, hogy az elavult operációs rendszerek figyelmeztetése megjelenjen.',
-    	'end_of_support_reached' => 'A(z) :os_name támogasása :date dátummal lejárt!',
-    
-    	
+		'end_of_support_needed' => 'Az operációs rendszer támogatásának végét ki kell tölteni, hogy az elavult operációs rendszerek figyelmeztetése megjelenjen.',
+		'end_of_support_reached' => 'A(z) :os_name támogasása :date dátummal lejárt!',
     ],
-
-	
 
 	'user_settings' => [
     	'my_settings' => 'Beállításaim',
@@ -603,7 +594,7 @@ return [
 		'default' => 'Alapértelmezett',
     
     ],
-	
+
 	'login' => [
     	'login' => 'Bejelentkezés',
     	'email' => 'Email cím',
@@ -640,7 +631,7 @@ return [
 	'downloads' => [
     	'downloads' => 'Letöltések',
     	'upload' => 'Feltöltés',
-    	'download_not_found' => 'Nincs letölthető fájl.',
+		'download_not_found' => 'Nincs letölthető fájl.',
     	'back_to_login' => 'Vissza a bejelentkezéshez',
     	'64bit_system' => 'Ez a számítógép: 64-bites rendszer',
     	'32bit_system' => 'Ez a számítógép: 32-bites rendszer',
@@ -673,9 +664,8 @@ return [
     	'are_you_sure_delete_update' => 'Biztos, hogy törölni akarod ezt a frissítést?',
     	'are_you_sure_deploy_update' => 'Biztos, hogy élesíteni akarod ezt a frissítést?',
     	'are_you_sure_revoke_update' => 'Biztos, hogy vissza akarod vonni ezt a frissítést?',
-    	
-    ],
 
+    ],
 
 	'about' => [
     	'about' => 'Névjegy',
@@ -699,11 +689,11 @@ return [
     	'username' => 'Felhasználónév',
     	'email' => 'Email',
     	'last_login' => 'Utolsó bejelentkezés',
-    	'permissions' => 'Jogosultságok',
+		'permissions' => 'Jogosultságok',
     	'activities' => 'Tevékenységek',
-    	'disable' => 'Letiltás',
+		'disable' => 'Letiltás',
     	'enable' => 'Engedélyezés',
-    	'user_permissions' => ':username jogosultságai',
+		'user_permissions' => ':username jogosultságai',
     	'user_activities' => ':username tevékenységei',
     	'user_activities_datetime' => 'Dátum, idő',
     	'user_activities_event' => 'Esemény',
@@ -712,13 +702,13 @@ return [
     	'user_activities_info' => 'Részletek',
     	'user_permission_read_blocks' => 'Blokkok megtekintése',
     	'user_permission_write_blocks' => 'Blokkok létrehozása',
-    	'user_permission_read_eventstream' => 'Eseménynapló megtekintése',
+		'user_permission_read_eventstream' => 'Eseménynapló megtekintése',
     	'user_permission_read_interventionstream' => 'Beavatkozások megtekintése',
     	'user_permission_write_intervention' => 'Beavatkozás hozzáadása',
     	'user_permission_read_intervention_suggestions' => 'Beavatkozási javaslatok megtekintése',
-    	'user_permission_read_workstations' => 'Munkaállomások megtekintése',
-    	'user_permission_read_workstation' => 'Munkaállomás megtekintése',
-    	'user_permission_write_workstation' => 'Munkaállomás hozzáadása/szerkesztése',
+		'user_permission_read_workstations' => 'Munkaállomások megtekintése',
+		'user_permission_read_workstation' => 'Munkaállomás megtekintése',
+		'user_permission_write_workstation' => 'Munkaállomás hozzáadása/szerkesztése',
     	'user_permission_write_workstation_command' => 'Távoli parancs küldése munkaállomásnak',
     	'user_permission_delete_workstation' => 'Munkaállomás törlése',
     	'user_permission_read_subnetworks' => 'IP tábla megtekintése',
@@ -772,7 +762,7 @@ return [
     	'user_permission_revoke_api_tokens' => 'API tokenek visszavonása',
     	'forgot_password_email_sent_out' => 'Kiküldésre került egy email. Kattints a hivatkozásra az új jelszavad beállításához.',
     	'set_new_password_subject' => 'Új jelszó beállítása.',
-    	
+		
     ],
 
 	'global_settings' => [
@@ -797,7 +787,7 @@ return [
     	'name' => 'Elnevezés',
     	'token' => 'Token',
     	'max_uses' => 'Max. haszn. alkalom',
-    	'max_uses_helper' => 'Opcionális. Hagyd üresen, ha korlátlan alkalommal lehet használni.',
+		'max_uses_helper' => 'Opcionális. Hagyd üresen, ha korlátlan alkalommal lehet használni.',
     	'expires' => 'Lejárati dátum és idő',
     	'expires_helper' => 'Opcionális. Hagyd üresen, ha soha ne járjon le.',
     	'active' => 'Aktív',
@@ -811,12 +801,12 @@ return [
     	'copied' => 'Másolva!',
     	'failed' => 'Sikertelen!',
     ],
- 
+
 	'languages' => [
     	'hu' => 'Magyar',
     	'en' => 'English',
     	'es' => 'Espanol',
-    
+		
     ],
 
 ];
