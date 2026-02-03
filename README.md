@@ -11,21 +11,21 @@ devices and the network from the events.
 
 Installation
 ============
- <a href="https://biglan.net/HU-biglan-installation-guide-20250907.pdf" target="_blank">Installation Guide (EN)</a>
- <a href="https://biglan.net/HU-biglan-telepitesi-utmutato-20250907.pdf" target="_blank">Telepítési útmutató (HU)</a>
+ - <a href="https://biglan.net/HU-biglan-installation-guide-20250907.pdf" target="_blank">Installation Guide (EN)</a>
+ - <a href="https://biglan.net/HU-biglan-telepitesi-utmutato-20250907.pdf" target="_blank">Telepítési útmutató (HU)</a>
  
 
 Usage
 =====
-<a href="https://biglan.net/EN-biglan-user-guide-20250907.pdf" target="_blank">User Guide (EN)</a>
-<a href="https://biglan.net/HU-biglan-felhasznaloi-utmutato-20250907.pdf" target="_blank">Felhasználói útmutató (HU)</a>
+- <a href="https://biglan.net/EN-biglan-user-guide-20250907.pdf" target="_blank">User Guide (EN)</a>
+- <a href="https://biglan.net/HU-biglan-felhasznaloi-utmutato-20250907.pdf" target="_blank">Felhasználói útmutató (HU)</a>
 
 
 Client-side Service Application
 ===============================
 The client-side installer can be found in the storage/downloads folder.
-<a href="https://biglan.net/EN-biglanservice-2-1-17-0-installation-guide.pdf" target="_blank">Installation Guide (EN)</a>
-<a href="https://biglan.net/HU-biglanservice-2-1-17-0-telepitesi-utmutato.pdf" target="_blank">Telepítési útmutató (HU)</a>
+- <a href="https://biglan.net/EN-biglanservice-2-1-17-0-installation-guide.pdf" target="_blank">Installation Guide (EN)</a>
+- <a href="https://biglan.net/HU-biglanservice-2-1-17-0-telepitesi-utmutato.pdf" target="_blank">Telepítési útmutató (HU)</a>
                 
 
 Version
