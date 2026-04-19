@@ -57,7 +57,7 @@ return new class extends Migration
             $table->timestamps();
         });
     
-    	Schema::create('ws_connection', function (Blueprint $table) {
+    	Schema::create('ws_connections', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
             $table->string('type', 200);
@@ -195,7 +195,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('workstations');
-        Schema::dropIfExists('ws_connection');
+        Schema::dropIfExists('ws_connections');
         Schema::dropIfExists('ws_control_logs');
         Schema::dropIfExists('ws_dns');
     	Schema::dropIfExists('ws_events');
