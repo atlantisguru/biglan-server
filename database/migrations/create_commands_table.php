@@ -26,7 +26,7 @@ return new class extends Migration
             $table->id();
             $table->integer('wsid');
             $table->integer('command_id');
-            $table->text('alias')->nullable();
+            $table->text('result')->nullable()->default(null);
            	$table->timestamps();
         });
     
@@ -38,7 +38,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('commands');
-        Schema::dropIfExists('comand_workstations');
+        Schema::dropIfExists('command_workstations');
         
     }
 };
