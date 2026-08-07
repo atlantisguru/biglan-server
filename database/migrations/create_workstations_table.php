@@ -56,7 +56,7 @@ return new class extends Migration
         	$table->string('msg_token', 255)->nullable();
             $table->timestamps();
         });
-    
+
     	Schema::create('ws_connections', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -65,7 +65,7 @@ return new class extends Migration
         	$table->string('notes', 255)->nullable();
             $table->timestamps();
         });
-    
+
     	Schema::create('ws_control_logs', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -74,14 +74,14 @@ return new class extends Migration
         	$table->text('log')->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_dns', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
         	$table->string('ip', 255);
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_events', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid')->index();
@@ -90,7 +90,7 @@ return new class extends Migration
         	$table->text('description')->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_filters', function (Blueprint $table) {
             $table->id();
             $table->string('hash', 255);
@@ -99,7 +99,7 @@ return new class extends Migration
         	$table->text('parameters');
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_harddrives', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -110,7 +110,7 @@ return new class extends Migration
         	$table->string('status', 255)->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_interventions', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid')->index();
@@ -119,14 +119,14 @@ return new class extends Migration
         	$table->text('description');
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_ips', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
         	$table->string('ip', 255)->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_labels', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -134,7 +134,7 @@ return new class extends Migration
         	$table->string('prop', 255)->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_memories', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -146,7 +146,7 @@ return new class extends Migration
         	$table->integer('type')->default(0);
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_monitors', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -158,7 +158,7 @@ return new class extends Migration
         	$table->string('inventory_id', 100)->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_printers', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -169,7 +169,7 @@ return new class extends Migration
         	$table->integer('shared')->nullable();
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_print_stats', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -177,7 +177,7 @@ return new class extends Migration
         	$table->integer('pages')->default(0);
         	$table->timestamps();
         });
-    
+
     	Schema::create('ws_user_accounts', function (Blueprint $table) {
             $table->id();
             $table->integer('wsid');
@@ -186,7 +186,7 @@ return new class extends Migration
         	$table->integer('isadmin')->default(0);
         	$table->timestamps();
         });
-    
+
     }
 
     /**
@@ -209,6 +209,6 @@ return new class extends Migration
     	Schema::dropIfExists('ws_printers');
     	Schema::dropIfExists('ws_print_stats');
     	Schema::dropIfExists('ws_user_accounts');
-    
+
     }
 };

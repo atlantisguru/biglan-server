@@ -10,7 +10,7 @@ use App\Console\Commands\NotificationMonitor;
 use App\Console\Commands\CleanWsEvents;
 
 Schedule::command('workstation:heartbeatloss')->everyMinute();
-Schedule::command('notificationmonitor:check')->everyMinute();
+Schedule::command('notificationmonitor:check')->everyMinute()->withoutOverlapping()->onOneServer();
 
 Schedule::command('workstation:cleanevents')->dailyAt('04:00');
 Schedule::command('networkprinters:check')->dailyAt('10:00');
