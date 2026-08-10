@@ -1,13 +1,29 @@
 BigLan Network Monitoring System
 ================================
-BigLan is a network monitoring system designed primarily for medium to large
-internal networks. It aims to help system administrators and network engineers manage
-poorly or completely undocumented networks. The system is used to map
-and monitor the network and keep the device inventory up to date.
-BigLan is built from two main parts: a server (e.g. Ubuntu 24.04, Apache, MySQL, Laravel) and
-client-side service applications. The client applications send data to the server, which
-creates a record and allows inferences to be made about the state of the endpoint
-devices and the network from the events.
+BigLan is a network monitoring system for medium to large internal networks. It helps system administrators and network engineers manage networks that are poorly documented — or not documented at all — by mapping the network, monitoring it, and keeping the device inventory up to date.
+
+BigLan has two main parts: a server (Ubuntu 24.04, Apache, MySQL, Laravel) and client-side service applications. Clients send data to the server, which logs it and uses it to infer the state of endpoint devices and the network.
+
+
+Screenshots
+===========
+<p float="left">
+  <img src="docs/screenshots/dashboard.png" alt="Dashboard" width="49%" />
+  <img src="docs/screenshots/topology.png" alt="Interactive Topology" width="49%" />
+</p>
+<p float="left">
+  <img src="docs/screenshots/workstation-datasheet.png" alt="Workstation datasheet" width="49%" />
+  <img src="docs/screenshots/command-center.png" alt="Command Center" width="49%" />
+</p>
+<p float="left">
+  <img src="docs/screenshots/workstations.png" alt="Workstations list" width="49%" />
+  <img src="docs/screenshots/network-devices.png" alt="Network devices list" width="49%" />
+</p>
+<p float="left">
+  <img src="docs/screenshots/dashboard-interventions.png" alt="Dashboard - Interventions" width="49%" />
+  <img src="docs/screenshots/documents.png" alt="Documents" width="49%" />
+</p>
+
 
 Installation
 ============
