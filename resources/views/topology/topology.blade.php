@@ -207,7 +207,7 @@
                         }
                     } else {
             
-            		var id = edges[edges.length-1].id + 1;
+            		var id = edges.length > 0 ? (edges[edges.length-1].id + 1) : 1;
             		if (edgeAction === "addEdgeUTP") { var type = "line"; var label = " "; }
             		if (edgeAction === "addEdgeMono") { var type = "dotted"; var label = "mono"; var edgeType = "mono"; }
             		if (edgeAction === "addEdgeMulti") { var type = "parallel";  var label = "multi"; var edgeType = "multi"; }
