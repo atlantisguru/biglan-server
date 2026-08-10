@@ -117,8 +117,11 @@ fi
 APP_TIMEZONE=$(ask "Timezone (PHP/Laravel format, e.g. Europe/Budapest)" "Europe/Budapest")
 APP_URL=$(ask "Server address (IP or domain, without https://)" "$(hostname -I | awk '{print $1}')")
 
-LOCALE_CHOICE=$(ask "Default language (hu/en)" "en")
-if [ "${LOCALE_CHOICE}" != "hu" ]; then LOCALE_CHOICE="en"; fi
+LOCALE_CHOICE=$(ask "Default language (hu/en/es)" "en")
+case "${LOCALE_CHOICE}" in
+    hu|es) ;;
+    *) LOCALE_CHOICE="en" ;;
+esac
 
 ENABLE_SSL=$(ask "Also enable Apache self-signed SSL? (y/n)" "y")
 

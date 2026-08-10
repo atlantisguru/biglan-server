@@ -11,14 +11,23 @@ devices and the network from the events.
 
 Installation
 ============
- - <a href="https://biglan.net/HU-biglan-installation-guide-20250907.pdf" target="_blank">Installation Guide (EN)</a>
- - <a href="https://biglan.net/HU-biglan-telepitesi-utmutato-20250907.pdf" target="_blank">Telepítési útmutató (HU)</a>
+BigLan Server can be installed automatically on a fresh Ubuntu Server 24.04 LTS with a single script:
+```
+curl -O https://raw.githubusercontent.com/atlantisguru/biglan-server/main/install-biglan.sh
+chmod +x install-biglan.sh
+sudo bash install-biglan.sh
+```
+For manual installation steps, or if you want to understand what the script automates, see the Installation Guide:
+ - <a href="https://biglan.net/EN-biglan-installation-guide.pdf" target="_blank">Installation Guide (EN)</a>
+ - <a href="https://biglan.net/HU-biglan-telepitesi-utmutato.pdf" target="_blank">Telepítési útmutató (HU)</a>
+ - <a href="https://biglan.net/ES-guia-de-instalacion-biglan.pdf" target="_blank">Guía de instalación (ES)</a>
  
 
 Usage
 =====
-- <a href="https://biglan.net/EN-biglan-user-guide-20250907.pdf" target="_blank">User Guide (EN)</a>
-- <a href="https://biglan.net/HU-biglan-felhasznaloi-utmutato-20250907.pdf" target="_blank">Felhasználói útmutató (HU)</a>
+- <a href="https://biglan.net/EN-biglan-user-guide.pdf" target="_blank">User Guide (EN)</a>
+- <a href="https://biglan.net/HU-biglan-felhasznaloi-utmutato.pdf" target="_blank">Felhasználói útmutató (HU)</a>
+- <a href="https://biglan.net/ES-guia-del-usuario.pdf" target="_blank">Guía del usuario (ES)</a>
 
 
 Client-side Service Application
@@ -26,17 +35,14 @@ Client-side Service Application
 The client-side installer can be found in the storage/downloads folder.
 - <a href="https://biglan.net/EN-biglanservice-2-1-17-0-installation-guide.pdf" target="_blank">Installation Guide (EN)</a>
 - <a href="https://biglan.net/HU-biglanservice-2-1-17-0-telepitesi-utmutato.pdf" target="_blank">Telepítési útmutató (HU)</a>
-                
-
-Version
-========
-2.0
+- <a href="https://biglan.net/ES-guia-de-instalacion-de-biglanservice-2.1.17.0.pdf" target="_blank">Guía de instalación (ES)</a>                
 
 
 Available languages
 ===================
 - Hungarian (Magyar)
 - English
+- Spanish (Español)
 
  		
 Licenses

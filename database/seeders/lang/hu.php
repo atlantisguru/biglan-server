@@ -65,10 +65,15 @@ return [
         ['alias' => 'BigLanService Installer 2.1.17.0', 'filename' => 'biglanservice-installer-2-1-17-0.msi', 'size' => 3451, 'published' => 1, 'counter' => 0 ],
     ],
 	'documents' => [
+    	['title' => 'EN BigLan Installation Guide', 'keywords' => 'biglan, installation, guide', 'source' => 'upload', 'filename' => 'EN-biglan-installation-guide.pdf', 'filesize' => 762467, 'user_id' => 0],
+    	['title' => 'HU BigLan Telepítési Útmutató', 'keywords' => 'biglan, telepítés, útmutató', 'source' => 'upload', 'filename' => 'HU-biglan-telepitesi-utmutato.pdf', 'filesize' => 773602, 'user_id' => 0],
+    	['title' => 'ES BigLan Guía de Instalación', 'keywords' => 'biglan, instalación, guía', 'source' => 'upload', 'filename' => 'ES-guia-de-instalacion-biglan.pdf', 'filesize' => 771008, 'user_id' => 0],
     	['title' => 'EN BigLanService 2.1.17.0 Installation Guide', 'keywords' => 'biglan, service, installer, guide', 'source' => 'upload', 'filename' => 'EN-biglanservice-2-1-17-0-installation-guide.pdf', 'filesize' => 263837, 'user_id' => 0],
     	['title' => 'HU BigLanService 2.1.17.0 Telepítési Útmutató', 'keywords' => 'biglan, service, telepítő, útmutató', 'source' => 'upload', 'filename' => 'HU-biglanservice-2-1-17-0-telepitesi-utmutato.pdf', 'filesize' => 292355, 'user_id' => 0],
-    	['title' => 'EN BigLan User Guide', 'keywords' => 'biglan, user, guide', 'source' => 'upload', 'filename' => 'EN-biglan-user-guide-20250907.pdf', 'filesize' => 508600, 'user_id' => 0],
-    	['title' => 'HU BigLan Felhasználói Útmutató', 'keywords' => 'biglan, felhasználói, útmutató', 'source' => 'upload', 'filename' => 'HU-biglan-felhasznaloi-utmutato-20250907.pdf', 'filesize' => 427527, 'user_id' => 0],
+    	['title' => 'ES BigLanService 2.1.17.0 Guía de Instalación', 'keywords' => 'biglan, service, instalador, guía', 'source' => 'upload', 'filename' => 'ES-guia-de-instalacion-de-biglanservice-2.1.17.0.pdf', 'filesize' => 488974, 'user_id' => 0],
+    	['title' => 'EN BigLan User Guide', 'keywords' => 'biglan, user, guide', 'source' => 'upload', 'filename' => 'EN-biglan-user-guide.pdf', 'filesize' => 508846, 'user_id' => 0],
+    	['title' => 'HU BigLan Felhasználói Útmutató', 'keywords' => 'biglan, felhasználói, útmutató', 'source' => 'upload', 'filename' => 'HU-biglan-felhasznaloi-utmutato.pdf', 'filesize' => 427527, 'user_id' => 0],
+    	['title' => 'ES BigLan Guía del Usuario', 'keywords' => 'biglan, usuario, guía', 'source' => 'upload', 'filename' => 'ES-guia-del-usuario.pdf', 'filesize' => 563980, 'user_id' => 0],
     ],
 	'service_updates' => [
 		['channel' => 'b', 'version' => '2.1.17.0', 'description' => 'Első nyilvános verzió.', 'filename' => 'BigLanService-beta.exe', 'active' => 1, 'counter' => 0],
