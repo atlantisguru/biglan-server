@@ -49,11 +49,11 @@ class RegisterController extends Controller
     }
 
    public function store(Request $request) {
-    	
+
    		$data = request()->except('_token');
-   
+
    		$rules = [
-        
+
         	'email' => ['required', 'email', 'unique:users'],
         	'username' => ['required', 'min:8', 'unique:users'],
         	'password' => [
@@ -63,7 +63,7 @@ class RegisterController extends Controller
             	'confirmed'
             ],
         ];
-   
+
    		$messages = [
     			'required' => __('all.validation.required'),
         		'email.unique' => __('all.validation.email_unique'),
@@ -73,50 +73,51 @@ class RegisterController extends Controller
         		'string' => __('all.validation.string'),
         		'password.confirmed' => __('all.validation.password_confirm'),
     	];
-   
+
    		$validator = Validator::make($data, $rules, $messages);
-    
+
     	if ($validator->fails()) {
         	return redirect()->back()->withErrors($validator)->withInput();
     	}
-   		
+
    		$firstUser = false;
    		$users = Users::count();
-   
+
    		if($users === 0) {
         	$firstUser = true;
         }
-   
+
    		$token = Str::random(32);
    		while (Users::where('token', $token)->exists()) {
     		$token = Str::random(32);
 		}
-   
+
     	$user = new Users();
-    
+
     	$user->username = $request['username'];
     	$user->password = bcrypt($request['password']);
    		$user->token = $token;
-   
+
     	$user->email = $request['email'];
-    
+        $user->language = config('app.locale');
+
    		if($firstUser === true) {
-   			$user->confirmed = 1;     	
+   			$user->confirmed = 1;
         }
-   
+
     	$user->save();
-   		
+
    		if($firstUser === true) {
    			$userId = $user->id;
         	$this->createFirstUserPermissions($userId);
         }
-   
+
   	 	return redirect()->to('/login')->with('success', __('all.login.register_success'));
-    	
+
     }
 
 	public function createFirstUserPermissions($userId) {
-    
+
     	$permissions = [
     		['user_id' => $userId, 'permission' => 'read-blocks'],
     		['user_id' => $userId, 'permission' => 'write-blocks'],
@@ -183,17 +184,17 @@ class RegisterController extends Controller
     }
 
 	public function viewRegister() {
-    
+
     	$enabled = GlobalSettings::where('name', 'enable-registration')->first();
-    
+
     	if(isset($enabled)) {
         	if(!$enabled->value) {
-        		return view("users.login");    	
+        		return view("users.login");
             }
         }
-    
+
     	return view("users.register");
-    
+
     }
 
 }

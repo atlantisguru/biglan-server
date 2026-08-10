@@ -17,7 +17,7 @@ class UsersController extends Controller
     public function payload(Request $request) {
 
 		$settings = $request["settings"];
-		
+
 		switch($settings) {
         	case "switchTheme":
         		$this->switchTheme($request);
@@ -28,54 +28,54 @@ class UsersController extends Controller
         	default:
         		break;
         }
-	
+
 	}
 
 	/*
  	 * Gives back the view of User Settings (User Settings)
      */
 	public function loadView() {
-		
+
     	$languages = array_diff(scandir(resource_path('lang')), ['..', '.']);
-    
+
     	return view("users.settings", [ "languages" => $languages ]);
-    
+
     }
 
 	/*
  	 * Gives back a list view of Users (Users)
      */
 	public function listUsers() {
-    	
+
     	if(!auth()->user()->hasPermission('read-users')) { return redirect('dashboard');}
-    
+
     	$users = Users::orderBy("username", "ASC")->paginate(20);
-    
+
     	return view("users.users", [ "users" => $users ] );
-    
+
     }
 
 	/*
  	 * Saves the permissions of a user (Users)
      */
 	public function savePermissions(Request $request) {
-    
+
     	if(!auth()->user()->hasPermission('write-user-permissions')) { return redirect('dashboard');}
-    
+
     	$token = $request['token'];
     	$user = Users::where('token', $token)->first();
-    
+
     	$permissions = $request["permissions"];
     	$userPermissions = UserPermissions::where('user_id', $user->id)->pluck("permission")->toArray();
-    
+
     	if (!isset($permissions)) {
         	$permissions = array();
         }
-    
+
     	if (!isset($userPermissions)) {
         	$userPermissions = array();
         }
-    
+
         //új jogosultságok
     	$newPermissions = array_diff($permissions, $userPermissions);
     	foreach($newPermissions as $item) {
@@ -84,14 +84,14 @@ class UsersController extends Controller
         	$permission->permission = $item;
         	$permission->save();
         }
-    	
+
     	//megszüntetendő jogosultságok
     	$removeablePermissions = array_diff($userPermissions, $permissions);
     	if (count($removeablePermissions) > 0) {
     		$items = UserPermissions::where('user_id', $user->id)->whereIn('permission', $removeablePermissions);
     		$items->delete();
         }
-        
+
     	$activity = new UserActivities();
     	$activity->user_id = auth()->user()->id;
     	$activity->activity = "changed user permissions";
@@ -99,24 +99,24 @@ class UsersController extends Controller
     	$activity->ip = $request->getClientIp();
     	$activity->browser = $request->userAgent();
     	$activity->save();
-    		
-    
+
+
     	return redirect()->back()->with('success', __('all.users.user_permission_save_success'));
-    
+
     }
 
 	/*
  	 * Gives back a list of User Permissions (Users)
      */
 	public function userPermissions(Request $request) {
-    	
+
     	if(!auth()->user()->hasPermission('read-user-permissions')) { return redirect('dashboard');}
-    
+
     	$token = $request['token'];
     	$user = Users::where('token', $token)->first();
-    
+
     	$userPermissions = UserPermissions::where('user_id', $user->id)->pluck("permission")->toArray();
-    
+
     	$permissions = [
         	[
             	"group-name" => __('all.nav.dashboard'),
@@ -145,8 +145,8 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_read_intervention_suggestions'),
                 		"name" => "read-intervention-suggestions"
                 	],
-              	
-              	],	
+
+              	],
             ],
     		[
             	"group-name" => __('all.nav.workstations'),
@@ -171,7 +171,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_delete_workstation'),
                 		"name" => "delete-workstation"
                 	],
-               	],	
+               	],
             ],
         	[
             	"group-name" => __('all.nav.ip_table'),
@@ -188,7 +188,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_write_ips'),
                 		"name" => "write-ips"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.notification_center'),
@@ -209,7 +209,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_read_notifications_eventlog'),
                 		"name" => "read-notifications-eventlog"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.network_printers'),
@@ -226,7 +226,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_delete_network_printer'),
                 		"name" => "delete-network-printer"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.network_devices'),
@@ -243,7 +243,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_delete_network_device'),
                 		"name" => "delete-network-device"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.topology'),
@@ -256,7 +256,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_write_topology'),
                 		"name" => "write-topology"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.command_center'),
@@ -277,7 +277,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_delete_script'),
                 		"name" => "delete-script"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.articles'),
@@ -302,7 +302,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_write_commment'),
                 		"name" => "write-comment"
                 	],
-              	],	
+              	],
             ],
         	[
             	"group-name" => __('all.nav.documents'),
@@ -319,7 +319,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_delete_document'),
                 		"name" => "delete-document"
                 	],
-                ],	
+                ],
             ],
         	[
             	"group-name" => __('all.nav.operating_systems'),
@@ -328,7 +328,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_read_operating_systems'),
                 		"name" => "read-operating-systems"
                 	],
-                ],	
+                ],
             ],
         	[
             	"group-name" => __('all.nav.local_printers'),
@@ -337,7 +337,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_read_printers'),
                 		"name" => "read-printers"
                 	],
-                ],	
+                ],
             ],
         	[
             	"group-name" => __('all.nav.monitors'),
@@ -346,7 +346,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_read_monitors'),
                 		"name" => "read-monitors"
                 	],
-                ],	
+                ],
             ],
         	[
             	"group-name" => __('all.nav.global_settings'),
@@ -363,8 +363,8 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_read_global_settings_eventlog'),
                 		"name" => "read-global-settings-eventlog"
                 	],
-                
-                ],	
+
+                ],
             ],
         	[
             	"group-name" => __('all.nav.downloads'),
@@ -385,8 +385,8 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_delete_download'),
                 		"name" => "delete-download"
                 	],
-                
-                ],	
+
+                ],
             ],
         	[
             	"group-name" => __('all.nav.updates'),
@@ -403,7 +403,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_edit_updates'),
                 		"name" => "edit-update"
                 	],
-                ],	
+                ],
             ],
         	[
             	"group-name" => __('all.nav.users'),
@@ -428,7 +428,7 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_write_user_status'),
                 		"name" => "write-user-status"
                 	],
-                ],	
+                ],
             ],
         	[
             	"group-name" => __('all.nav.api_tokens'),
@@ -445,67 +445,67 @@ class UsersController extends Controller
                 		"alias" => __('all.users.user_permission_revoke_api_tokens'),
                 		"name" => "revoke-api-tokens"
                 	],
-                ],	
+                ],
             ],
         ];
-    
+
     	if(isset($user)) {
         	return view('users.permissions', ['user' => $user, "permissions" => $permissions, "userPermissions" => $userPermissions, "token" => $token]);
         }
-    
+
     }
 
 	/*
  	 * Gives back a list view of User's Activities (Users)
      */
 	public function userActivities(Request $request) {
-    	
+
     	if(!auth()->user()->hasPermission('read-user-activities')) { return redirect('dashboard');}
-    
+
     	$token = $request['token'];
     	$user = Users::where('token', $token)->first();
-    
+
     	$userActivities = UserActivities::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(50);
-    
+
     	if(isset($user)) {
         	return view('users.activities', ['user' => $user, "userActivities" => $userActivities]);
         }
-    
+
     }
 
 	/*
  	 * Changes the status of a User (Users)
      */
 	public function userStatus(Request $request) {
-    	
+
     	if(!auth()->user()->hasPermission('write-user-status')) { return redirect('dashboard');}
-    
+
     	$token = $request['token'];
     	$user = Users::where('token', $token)->first();
-    
+
     	if(!isset($user)) {
         	return redirect("users");
         }
-    
+
     	if($user->confirmed == 1) {
         	$user->confirmed = 0;
         } else {
         	$user->confirmed = 1;
         }
-    	
+
     	$user->save();
-    
+
     	return redirect("users");
-    
+
     }
 
 	/*
  	 * Changes the theme for a user (User Settings)
      */
 	public function switchTheme($request) {
-    	
+
     	$theme = $request["theme"];
-    	$user = Users::where("id", \Auth::user()->id)->first();	
+    	$user = Users::where("id", \Auth::user()->id)->first();
     	switch($theme) {
         	case "dark":
         		$user->theme = "dark";
@@ -517,7 +517,7 @@ class UsersController extends Controller
         		$user->theme = null;
         		break;
         }
-    	
+
     	$user->save();
     	return "OK";
     }
@@ -526,23 +526,20 @@ class UsersController extends Controller
  	 * Changes the language for a user (User Settings)
      */
 	public function switchLanguage($request) {
-    	
+
     	$language = $request["language"];
-    	$user = Users::where("id", \Auth::user()->id)->first();	
-    	switch($language) {
-        	case "hu":
-        		$user->language = "hu";
-        		break;
-        	case "en":
-        		$user->language = "en";
-        		break;
-        	default:
-        		$user->language = null;
-        		break;
+        $availableLanguages = array_diff(scandir(resource_path('lang')), ['..', '.']);
+        $user = Users::where("id", \Auth::user()->id)->first();
+
+        if (in_array($language, $availableLanguages)) {
+            $user->language = $language;
+        } else {
+            $user->language = null;
         }
-    	
-    	$user->save();
-    	return "OK";
+
+        $user->save();
+        return "OK";
+
     }
 
 }
