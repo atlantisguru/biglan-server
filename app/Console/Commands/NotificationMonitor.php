@@ -84,7 +84,8 @@ class NotificationMonitor extends Command
         	$expression = json_decode($notification->target)->expression;
     		$timeout = 5;
 
-    		$headers = @get_headers($website, 0);
+       		$context = stream_context_create(['http' => ['timeout' => $timeout]]);
+    		$headers = @get_headers($website, 0, $context);
 
         	if (!is_array($headers)) {
             	$statusCode = 0;
@@ -132,7 +133,7 @@ class NotificationMonitor extends Command
 
         	$ip = $notification->target;
 
-        	$pingresult = exec("/bin/ping -c 7 -W 2 $ip", $outcome, $status);
+        	$pingresult = exec("/bin/ping -c 7 -W 1 $ip", $outcome, $status);
 
         	if($status) {
             	if($notification->triggered == 0) {
@@ -177,11 +178,6 @@ class NotificationMonitor extends Command
 
     	$socket = @fsockopen($ip, $port, $errno, $errstr, $timeout);
 
-    	if (!$socket) {
-        	sleep(10);
-        	$socket = @fsockopen($ip, $port, $errno, $errstr, $timeout);
-        }
-
     	if ($socket) {
     		if ($notification->triggered == 1) {
             	$notification->triggered = 0;
@@ -206,6 +202,7 @@ class NotificationMonitor extends Command
 
             	$this->messages[] = $description;
 
+                sleep(2);
             	$this->runNmap($notification);
             }
         }
@@ -216,7 +213,7 @@ class NotificationMonitor extends Command
 
     	$heartbeatLossList = Workstations::heartBeatLoss()->get();
     	$heartbeatLossCount = $heartbeatLossList->count();
-    	$target = Notifications::where("type", "mass-heartbeat-loss")->first()->target;
+    	$target = $notification->target;
 
     	$count = 0;
     	$list = array();
@@ -248,7 +245,6 @@ class NotificationMonitor extends Command
 
             	$description = __('all.notification_center.status_changed_with_value', ['notification' => $notification->alias, 'status' => mb_strtoupper(__('all.notification_center.alert'), 'UTF-8'), 'value' => $count ] );
             	$this->newNotificationLog($notification->id, 1, "status changed", $description);
-            	sleep(1);
             	$this->newNotificationLog($notification->id, NULL, "post event action", implode(", ", $list));
 
             	$this->messages[] = $description;

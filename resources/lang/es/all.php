@@ -391,7 +391,7 @@ return [
     	'value' => 'Valor',
     	'active' => 'Activo',
 		'alert' => 'Alerta',
-    	'idle' => 'Inactivo',
+    	'idle' => 'Recuperado',
     	'socket_polling' => 'Socket Polling',
     	'socket_polling_description' => 'El objetivo es acceder correctamente al puerto de la IP indicada. En caso contrario, activa una alerta.',
     	'sensor_value' => 'Valor del Sensor',

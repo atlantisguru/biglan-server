@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             // Táblák végigiterálása
             foreach ($data as $table => $rows) {
                 foreach ($rows as $row) {
+                    $row['created_at'] = $row['updated_at'] = now();
                     DB::table($table)->insert($row);
                 }
             }

@@ -20,7 +20,7 @@ set -Eeuo pipefail
 PROJECT_DIR_DEFAULT="/var/www/biglan"
 REPO_URL="https://github.com/atlantisguru/biglan-server.git"
 LOGFILE="/var/log/biglan-install.log"
-TOTAL_STEPS=20
+TOTAL_STEPS=21
 CURRENT_STEP=0
 
 # Colors (only if the terminal supports them)
@@ -180,6 +180,16 @@ success "Database and user created."
 step "Installing SNMP"
 run "apt-get install -y snmp snmpd"
 success "SNMP installed."
+
+step "Installing nmap (used by the Notification Center for automatic diagnostics)"
+run "apt-get install -y nmap"
+NMAP_PATH="$(command -v nmap)"
+if [ -n "${NMAP_PATH}" ]; then
+    run "setcap cap_net_raw,cap_net_admin+eip ${NMAP_PATH}"
+    success "nmap installed, granted raw-socket capability (so --traceroute works without running as root)."
+else
+    info "nmap installation could not be verified - check manually after install."
+fi
 
 # ------------------------------------------------------------------
 # 5. PHP and required extensions
