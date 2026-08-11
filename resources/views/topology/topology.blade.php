@@ -35,51 +35,59 @@
 @endsection
 
 @section("inject-footer")
-	
+
 	<script type="text/javascript" src="{{ url('js/sigma.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma/plugins/sigma.renderers.customEdgeShapes.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma/plugins/sigma.renderers.edgeDots.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma/plugins/sigma.renderers.edgeLabels.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma/plugins/sigma.renderers.parallelEdges.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma/plugins/sigma.plugins.dragNodes.min.js') }}"></script>
-	
+
     <script type="text/javascript" src="{{ url('js/sigma.parsers.json.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma.layout.forceAtlas2.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma.plugins.animate.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma.exporters.gexf.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/sigma.exporters.svg.min.js') }}"></script>
-	
-	
+
+
 	<script type="text/javascript">
-   
+
+		function getNodeColor(n) {
+			if (n.lost) return '#d9534f';
+			if (n.id === 'nd1') return '#D2691e';
+			if (n.black_toner !== undefined) return '#FFD700';
+			if (n.online === undefined) return '#0275d8';
+			return (n.online == 1) ? '#5cb85c' : '#aaa';
+		}
+
 		$(function () {
         	sigma.parsers.json("{{ url('topology/update') }}", {
     			settings: {
-                	
+
                 	doubleClickEnabled: false,
       				defaultNodeColor: '#ec5148',
       				defaultEdgeColor: '#aaa',
                 	defaultLabelColor: '#555',
                 	edgeColor: '#aaa',
                 	skipErrors: 'true',
-                	
+
                 },
             	renderer: {
                 	type: 'canvas',
                 	container: 'container',
-                
-    			}            	
+
+    			}
             },
         function(s) {
-            
+
             var i,
                 nodes = s.graph.nodes(),
                 len = nodes.length,
         		edges = s.graph.edges(),
         		elen = edges.length;
-        	
+
         	for (i = 0; i < elen; i++) {
-            
+
             	switch(edges[i].type) {
                 	case "mono":
                 		edges[i].label = "mono";
@@ -97,66 +105,57 @@
                 		edges[i].type = "dotted";
                 		break;
                 	default:
-                		//edges[i].label = "UTP";
                 		edges[i].type = "line";
                 		break;
                 }
-            
+
             }
-       
+
             for (i = 0; i < len; i++) {
-            
-            	
+
             	if(nodes[i].x == undefined) {
-                	nodes[i].x = Math.floor(Math.random() * 10);
-                	nodes[i].y = Math.floor(Math.random() * 10);
-                }
-            
+    				var spread = Math.max(1000, len * 5);
+    				nodes[i].x = Math.floor(Math.random() * spread);
+    				nodes[i].y = Math.floor(Math.random() * spread);
+				}
+
             	if (nodes[i].size > 24) {
                 nodes[i].size = 24;
                 }
-            
+
             	if (nodes[i].size == undefined) {
                 nodes[i].size = 15;
                 }
-            	if(nodes[i].online == 1) {
-                nodes[i].color = "#5cb85c";
-                nodes[i].error = 0;
-                
-                } else {
-                nodes[i].error = 1;
-                nodes[i].color = '#aaa';
-                }
-            	if (nodes[i].online == undefined) {
-                	nodes[i].color = "#0275d8";
-                }
-                //nyomtató
-            	if (nodes[i].black_toner != undefined) {
-                	nodes[i].color = "#FFD700";
-                }
-            	
-            	if (nodes[i].lost) {
-                	nodes[i].color = "#d9534f";
-                }
-            	if (nodes[i].id == "nd1") {
-                	nodes[i].color = "#D2691e";
-                }
-            
+
+            	nodes[i].error = (nodes[i].online == 1) ? 0 : 1;
+            	nodes[i].color = getNodeColor(nodes[i]);
+
             }
-        
+
             s.refresh();
-        	
-            s.startForceAtlas2({
-            	gravity: 1
-            	
-            });
+
+            var atlasSettings = {
+            	gravity: 1,
+                scalingRatio: 10,
+                strongGravityMode: false,
+                linLogMode: true,
+                outboundAttractionDistribution: true,
+                adjustSizes: true,
+                barnesHutOptimize: true,
+                barnesHutTheta: 0.6,
+                slowDown: 10
+            };
+
+            s.startForceAtlas2(atlasSettings);
+
         @if(auth()->user()->hasPermission('write-topology'))
-        var sourceNode, targetNode, edgeAction;
+        var sourceNode = null, targetNode = null, edgeAction = null;
         var contextmenu;
         s.bind('clickNode rightClickNode', function(e) {
+        	if (!e.data || !e.data.node) { return; }
         	if (e.type === "rightClickNode") {
             	sourceNode = e.data.node.id;
-            	
+
             	$("body").contextmenu(function (event) {
             		var clicked = $(event.target);
                 	$(".contextmenu").html("");
@@ -168,8 +167,7 @@
             			$(".contextmenu").append("<a href='javascript:' class='dropdown-item context-action' data-action='addEdgeMulti' data-id='"+e.data.node.id+"'>{{ __('all.topology.multimode_connection') }}</a>");
             			$(".contextmenu").append("<hr>");
             			$(".contextmenu").append("<a href='javascript:' class='dropdown-item context-action' data-action='deleteEdge' data-id='"+e.data.node.id+"'>{{ __('all.topology.delete_connection') }}</a>");
-            			
-                		// Show contextmenu
+
     					$(".contextmenu").addClass("show").css({
                 			position: "absolute",
                     		zIndex: 2000,
@@ -177,11 +175,11 @@
         					left: event.pageX + "px"
     					});
                 });
-               
+
             } else {
-            	
+
             }
-        	
+
         	if (e.type === "clickNode" && sourceNode !== null && edgeAction !== null) {
             	targetNode = e.data.node.id;
             		if (edgeAction === "deleteEdge") {
@@ -202,18 +200,19 @@
                 					}
             					});
                             }
-                            
-                        
+
+
                         }
                     } else {
-            
+
             		var id = edges.length > 0 ? (edges[edges.length-1].id + 1) : 1;
-            		if (edgeAction === "addEdgeUTP") { var type = "line"; var label = " "; }
-            		if (edgeAction === "addEdgeMono") { var type = "dotted"; var label = "mono"; var edgeType = "mono"; }
-            		if (edgeAction === "addEdgeMulti") { var type = "parallel";  var label = "multi"; var edgeType = "multi"; }
+            		var edgeType = null;
+            		if (edgeAction === "addEdgeUTP") { var type = "line"; var label = " "; edgeType = "utp"; }
+            		if (edgeAction === "addEdgeMono") { var type = "dotted"; var label = "mono"; edgeType = "mono"; }
+            		if (edgeAction === "addEdgeMulti") { var type = "parallel";  var label = "multi"; edgeType = "multi"; }
             		var source = sourceNode;
             		var target = targetNode;
-                    
+
                     var payLoad = {};
                     payLoad['_token'] = $('meta[name=csrf-token]').attr('content');
             		payLoad['action'] = 'addEdge';
@@ -227,35 +226,31 @@
             				s.graph.addEdge({"color": "#555", "id" : id, "label" : label, "source" : source, "target" : target, "type": type});
                 		}
             		});
-                    
-            		
-                    
+
                     }
-                    
-            	sourceNode, targetNode, edgeAction = null;
-            		
-            	
+
+            	sourceNode = null;
+            	targetNode = null;
+            	edgeAction = null;
+
             }
        });
-        
+
         $("body").on("click", ".context-action", function() {
         	edgeAction = $(this).attr("data-action");
         });
         @endif
-        
-        
+
+
         $("#play").on("click", function() {
-        	s.startForceAtlas2({ 
-            	gravity: 20,
-                scalingRatio: 30
-            });
+        	s.startForceAtlas2(atlasSettings);
         });
-        
+
         $("#pause").on("click", function() {
         	s.stopForceAtlas2();
         });
-        
-        
+
+
 		$("#export-gexf").on("click", function() {
         	s.toGEXF({
   				download: true,
@@ -266,139 +261,47 @@
   				description: 'BigLan Network Monitoring System Topology'
 			});
         });
-  
+
         $("#export").on("click", function() {
         	s.toSVG({download: true, filename: 'biglan-topology.svg', size: 4800});
         });
-        	
-        
-			var timer = setInterval( function(){ 
-            
-            	//új állapotok lekérdezése
-            	$.getJSON('{{ url("topology/update") }}', function(data) {
-                	var nodeStatuses = data["nodes"];
-                	var errors = 0;
-                	s.graph.nodes().forEach(function(node) {
-                    	var status = nodeStatuses.filter(function(el) {
-                        	return el.id === node.id;
-                        });
-                    	
-                    	node.color = (status[0].online) ? '#5cb85c' : '#aaa';
-               
-            	if (status[0].online == undefined) {
-                	node.color = "#0275d8";
-                }
-                //nyomtató
-            	if (status[0].black_toner != undefined) {
-                	node.color = "#FFD700";
-                }
-            	if (status[0].type == "server") {
-                	node.color = "#9400D3";
-                }
-            	if (status[0].type == "camera") {
-                	node.color = "#FF69b4";
-                }
-            	if (status[0].lost) {
-                	node.color = "#d9534f";
-                }
-            	if (status[0].id == "nd1") {
-                	node.color = "#D2691e";
-                }
-                    });
-               
+
+
+		var timer = setInterval(function() {
+        	$.getJSON('{{ url("topology/update") }}', function(data) {
+            	var statusById = {};
+            	data["nodes"].forEach(function(st) { statusById[st.id] = st; });
+
+            	s.graph.nodes().forEach(function(node) {
+                	var status = statusById[node.id];
+                	if (!status) { return; }
+                	node.color = getNodeColor(status);
+                });
+
+            	s.refresh();
+            });
+        }, 30000);
+
+        var filterConfig = {
+        	'ws-online':  function(n) { return n.type == 'ws' && n.lost == 0 && n.online == 1; },
+        	'ws-offline': function(n) { return n.type == 'ws' && n.lost == 0 && n.online == 0; },
+        	'ws-lost':    function(n) { return n.type == 'ws' && n.lost == 1 && n.online == 1; },
+        	'pr':         function(n) { return n.type == 'pr'; }
+        };
+
+        $.each(filterConfig, function(id, matches) {
+        	$('#' + id).on('click', function() {
+            	var checked = $(this).prop('checked');
+            	s.graph.nodes().forEach(function(node) {
+                	if (matches(node)) { node.hidden = !checked; }
                 });
             	s.refresh();
-            
-            }, 15000);
-        
-        $("#ws-online").on("click", function() {
-       			s.graph.nodes().forEach(function(node) {
-                	if($("#ws-online").prop("checked")) {
-            	    	if(node.type == "ws" && node.lost == 0 && node.online == 1) {
-                	    	node.hidden = false;
-                    	}
-                    } else {
-                    	if(node.type == "ws" && node.lost == 0 && node.online == 1) {
-                	    	node.hidden = true;
-                    	}
-                    }
-                });
-        s.refresh();
-       });
-        $("#ws-offline").on("click", function() {
-       			s.graph.nodes().forEach(function(node) {
-                	if($("#ws-offline").prop("checked")) {
-            	    	if(node.type == "ws" && node.lost == 0 && node.online == 0) {
-                	    	node.hidden = false;
-                    	}
-                    } else {
-                    	if(node.type == "ws" && node.lost == 0 && node.online == 0) {
-                	    	node.hidden = true;
-                    	}
-                    }
-                });
-        s.refresh();
-       });
-        $("#ws-lost").on("click", function() {
-       			s.graph.nodes().forEach(function(node) {
-                	if($("#ws-lost").prop("checked")) {
-            	    	if(node.type == "ws" && node.lost == 1 && node.online == 1) {
-                	    	node.hidden = false;
-                    	}
-                    } else {
-                    	if(node.type == "ws" && node.lost == 1 && node.online == 1) {
-                	    	node.hidden = true;
-                    	}
-                    }
-                });
-        s.refresh();
-       });
-        $("#pr").on("click", function() {
-       			s.graph.nodes().forEach(function(node) {
-                	if($("#pr").prop("checked")) {
-            	    	if(node.type == "pr") {
-                	    	node.hidden = false;
-                    	}
-                    } else {
-                    	if(node.type == "pr") {
-                	    	node.hidden = true;
-                    	}
-                    }
-                });
-        s.refresh();
-       });
-        $("#camera").on("click", function() {
-       			s.graph.nodes().forEach(function(node) {
-                	if($("#camera").prop("checked")) {
-            	    	if(node.type == "camera") {
-                	    	node.hidden = false;
-                    	}
-                    } else {
-                    	if(node.type == "camera") {
-                	    	node.hidden = true;
-                    	}
-                    }
-                });
-        s.refresh();
-       });
-        $("#server").on("click", function() {
-       			s.graph.nodes().forEach(function(node) {
-                	if($("#server").prop("checked")) {
-            	    	if(node.type == "server") {
-                	    	node.hidden = false;
-                    	}
-                    } else {
-                    	if(node.type == "server") {
-                	    	node.hidden = true;
-                    	}
-                    }
-                });
-        s.refresh();
-       });
-        
+            });
         });
-        
+
         });
-        
+
+        });
+
 	</script>
 @endsection
