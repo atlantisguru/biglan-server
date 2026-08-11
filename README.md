@@ -25,6 +25,11 @@ Screenshots
 </p>
 
 
+Developer Documentation
+========================
+Looking to understand how BigLan actually works under the hood? See the [Wiki](https://github.com/atlantisguru/biglan-server/wiki).
+
+
 Installation
 ============
 BigLan Server can be installed automatically on a fresh Ubuntu Server 24.04 LTS with a single script:
