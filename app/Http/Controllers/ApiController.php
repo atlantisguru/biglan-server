@@ -468,12 +468,15 @@ class ApiController extends Controller
             }
 
             if ($newCount > 0 && $count === 0) {
+                $score = floor(($newCount / count($entities)) * 100);
+
                 $workstation = new Workstations();
                 $workstation->uuid = $uuid;
                 $workstation->mboard_serial = $board;
                 $workstation->product_serial = $product;
                 $workstation->first_mac = $mac;
                 $workstation->alias = $hostname;
+                $workstation->score = $score;
                 return $workstation->save() ? $workstation->id : "ERROR";
             }
 
