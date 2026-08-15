@@ -401,80 +401,89 @@ class ApiController extends Controller
     * (no unique identification data available)
  	*/
 	public function identifyWorkstation($uuid, $board, $product, $mac, $hostname)
-	{
-    	try {
-        	$serialPattern = "/^(?=.*\d).{4,26}$/";
-       		$uuidPattern = "/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$/";
-        	$macPattern = "/^[a-fA-F0-9]{12}$/";
+    {
+        try {
+            $serialPattern = "/^(?=.*\d).{4,26}$/";
+            $uuidPattern = "/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$/";
+            $macPattern = "/^[a-fA-F0-9]{12}$/";
 
-        	$validations = [
-            	'uuid' => preg_match($uuidPattern, $uuid),
-            	'product_serial' => preg_match($serialPattern, $product),
-            	'mboard_serial' => preg_match($serialPattern, $board),
-            	'first_mac' => preg_match($macPattern, $mac)
-        	];
+            $validations = [
+                'uuid' => (bool) preg_match($uuidPattern, $uuid),
+                'product_serial' => (bool) preg_match($serialPattern, $product),
+                'mboard_serial' => (bool) preg_match($serialPattern, $board),
+                'first_mac' => (bool) preg_match($macPattern, $mac)
+            ];
 
-        	if (in_array(false, $validations, true)) {
-            	return "ERROR";
-        	}
+            // Only reject outright if NONE of the four identifiers are usable -
+            // a single missing/invalid field (e.g. no board_serial on many VMs)
+            // should not block identification entirely.
+            if (!in_array(true, $validations, true)) {
+                return "ERROR";
+            }
 
-        	$entities = [
-            	['identifier' => 'uuid', 'value' => $uuid],
-            	['identifier' => 'product_serial', 'value' => $product],
-            	['identifier' => 'mboard_serial', 'value' => $board],
-            	['identifier' => 'first_mac', 'value' => $mac],
-        	];
+            $entities = [
+                ['identifier' => 'uuid', 'value' => $uuid],
+                ['identifier' => 'product_serial', 'value' => $product],
+                ['identifier' => 'mboard_serial', 'value' => $board],
+                ['identifier' => 'first_mac', 'value' => $mac],
+            ];
 
-        	foreach ($entities as &$entity) {
-            	$matches = Workstations::where($entity['identifier'], $entity['value']);
-            	$entity['count'] = $matches->count();
-            	$entity['wsid'] = $entity['count'] === 1 ? $matches->first()->id : 0;
-        	}
+            foreach ($entities as &$entity) {
+                // Skip fields that failed basic format validation entirely -
+                // an empty/malformed value must never be treated as a match.
+                if (!$validations[$entity['identifier']]) {
+                    $entity['count'] = -1;
+                    $entity['wsid'] = 0;
+                    continue;
+                }
+                $matches = Workstations::where($entity['identifier'], $entity['value']);
+                $entity['count'] = $matches->count();
+                $entity['wsid'] = $entity['count'] === 1 ? $matches->first()->id : 0;
+            }
+            unset($entity);
 
-        	$count = 0;
-        	$newCount = 0;
-        	$wsid = null;
+            $count = 0;
+            $newCount = 0;
+            $wsid = null;
 
-        	foreach ($entities as $ent) {
-            	if ($ent['count'] === 1) {
-                	$wsid = $wsid ?? $ent['wsid'];
-                	if ($ent['wsid'] === $wsid) {
-                    	$count++;
-                	}
-            	} elseif ($ent['count'] === 0) {
-                	$newCount++;
-            	}
-        	}
+            foreach ($entities as $ent) {
+                if ($ent['count'] === 1) {
+                    $wsid = $wsid ?? $ent['wsid'];
+                    if ($ent['wsid'] === $wsid) {
+                        $count++;
+                    }
+                } elseif ($ent['count'] === 0) {
+                    $newCount++;
+                }
+            }
 
-        	if ($count > 0) {
-            	$score = floor(($count / count($entities)) * 100);
-            	$workstation = Workstations::find($wsid);
-            		if ($workstation) {
-                	$workstation->score = $score;
-                	$workstation->save();
-                	return $wsid;
-            	}
-        	}
+            if ($count > 0) {
+                $score = floor(($count / count($entities)) * 100);
+                $workstation = Workstations::find($wsid);
+                if ($workstation) {
+                    $workstation->score = $score;
+                    $workstation->save();
+                    return $wsid;
+                }
+            }
 
-        	if ($newCount > 0 && $count === 0) {
-            	$workstation = new Workstations();
-            	$workstation->uuid = $uuid;
-            	$workstation->mboard_serial = $board;
-            	$workstation->product_serial = $product;
-            	$workstation->first_mac = $mac;
-            	$workstation->alias = $hostname;
+            if ($newCount > 0 && $count === 0) {
+                $workstation = new Workstations();
+                $workstation->uuid = $uuid;
+                $workstation->mboard_serial = $board;
+                $workstation->product_serial = $product;
+                $workstation->first_mac = $mac;
+                $workstation->alias = $hostname;
+                return $workstation->save() ? $workstation->id : "ERROR";
+            }
 
-            	return $workstation->save() ? $workstation->id : "ERROR";
-        	}
+            return "ERROR";
 
-        	return "ERROR";
-
-    	} catch (Exception $e) {
-        	\Log::error($e->getMessage());
-        	return "ERROR";
-    	}
-
-	}
+        } catch (Exception $e) {
+            \Log::error($e->getMessage());
+            return "ERROR";
+        }
+    }
 
 	/*
  	* On boot, every service generates a random 32 character encryption key
