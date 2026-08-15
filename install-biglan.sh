@@ -201,6 +201,20 @@ step "Installing and configuring PHP"
 run "apt-get install -y php libapache2-mod-php php-mysql php-snmp php-xml php-zip php-curl php-mbstring php-bcmath"
 success "PHP and required extensions installed."
 
+# Raise upload/POST/memory limits in the Apache-loaded php.ini.
+# Needed for larger file uploads in Downloads (e.g. the Linux client's
+# .tar.gz, which is sent base64-encoded - roughly +33% over its real
+# size - and then base64_decode()'d entirely in memory server-side).
+APACHE_PHP_INI="$(find /etc/php/*/apache2/php.ini 2>/dev/null | head -n1)"
+if [ -n "${APACHE_PHP_INI}" ]; then
+    run "sed -i 's/^post_max_size = .*/post_max_size = 900M/' \"${APACHE_PHP_INI}\""
+    run "sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 900M/' \"${APACHE_PHP_INI}\""
+    run "sed -i 's/^memory_limit = .*/memory_limit = 900M/' \"${APACHE_PHP_INI}\""
+    success "post_max_size, upload_max_filesize, and memory_limit raised to 900M in ${APACHE_PHP_INI}."
+else
+    info "Could not find the Apache php.ini automatically - if large file uploads in Downloads fail later, raise post_max_size, upload_max_filesize, and memory_limit manually."
+fi
+
 # ------------------------------------------------------------------
 # 6. Firewall
 # ------------------------------------------------------------------
