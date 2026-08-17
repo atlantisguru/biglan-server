@@ -152,29 +152,28 @@ class DownloadsController extends Controller
 	 */
 	public function fileDownload(Request $request) {
 
-    	$filename = request()->filename;
+        $filename = request()->filename;
 
-    	$file = Downloads::where("filename", $filename)->first();
+        $file = Downloads::where("filename", $filename)->first();
 
-    	if(!isset($file)) {
-        	return $this->viewDownloads();
+        if(!isset($file)) {
+            abort(404);
         }
 
-    	if(!$file->published && !auth()->check()) {
-        	return $this->viewDownloads();
+        if(!$file->published && !auth()->check()) {
+            abort(403);
         }
 
+        $file->counter = $file->counter+1;
+        $file->save();
 
-    	$file->counter = $file->counter+1;
-    	$file->save();
+        $path = storage_path('downloads/'.$file->filename);
 
-    	$path = storage_path('downloads/'.$file->filename);
-
-    	if(!file_exists($path)) {
-        	return $this->viewDownloads();
+        if(!file_exists($path)) {
+            abort(404);
         }
 
-    	return response()->download($path, $file->filename);
+        return response()->download($path, $file->filename);
 
     }
 

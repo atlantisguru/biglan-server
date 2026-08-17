@@ -14,6 +14,7 @@ return [
     	'ip' => 'Se requiere una dirección IP válida',
     	'required_without_all' => 'Se requiere al menos uno de estos campos.',
     	'regex' => 'Siga el patrón requerido para este campo.',
+        'unique' => 'Este valor ya está en uso, debe ser único.',
     	'email' => 'Se requiere una dirección de correo electrónico válida.',
 		'email_not_found' => 'Dirección de correo electrónico no encontrada.',
     	'email_token_found' => 'Ya se ha enviado un correo de restablecimiento.',

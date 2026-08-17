@@ -14,6 +14,7 @@ return [
     	'ip' => 'Érvényes IP címet adj meg.',
     	'required_without_all' => 'Legalább az egyik mező kitöltése kötelező.',
     	'regex' => 'A megadott mintázatnak megfelelően add meg az értéket.',
+        'unique' => 'Ez az érték már foglalt, egyedinek kell lennie.',
     	'email' => 'Érvényes email címet adj meg.',
 		'email_not_found' => 'Az email cím nem található.',
     	'email_token_found' => 'Egy visszaállító email már kiküldésre került.',
@@ -79,7 +80,7 @@ return [
 		'global_settings_not_found' => 'Még nincs globális beállítási lehetőség.',
     	'global_settings_log_not_found' => 'Még nincs globális beállítással kapcsolatos esemény.',
     ],
-	
+
 	'nav' => [
     	'dashboard' => 'Dashboard',
     	'workstations' => 'Munkaállomások',
@@ -106,7 +107,7 @@ return [
     	'updates' => 'Frissítések',
     	'api_tokens' => 'API Tokenek',
     ],
-	
+
 	'layout' => [
 		'find_workstation' => 'Munkaállomás keresése',
 		'intervention' => 'Beavatkozás rögzítése',
@@ -493,7 +494,7 @@ return [
     	'utp_connection' => 'UTP innen',
     	'monomode_connection' => 'Monomódus innen',
     	'multimode_connection' => 'Multimódus innen',
-    	'delete_connection' => 'Törlés innen...',	
+    	'delete_connection' => 'Törlés innen...',
     ],
 
 	'command_center' => [
@@ -527,7 +528,7 @@ return [
     	'date_and_time' => 'Dátum/Idő',
     	'delete_script_from_database' => 'Szkript törlése adatbázisból',
     	'are_you_sure_delete_script' => 'Biztos, hogy törlöd ezt a szkriptet az adatbázisból?',
-    	
+
     ],
 
 	'articles' => [
@@ -551,7 +552,7 @@ return [
     	'send' => 'Beküldés',
     	'your_comment' => 'Hozzászólásod',
     	'tags' => 'Témakörök',
-		
+
     ],
 
 	'documents' => [
@@ -568,9 +569,9 @@ return [
     	'actions' => 'Műveletek',
     	'archives' => 'Archívum',
     	'restore' => 'Visszaállít',
-    	'select_file' => 'Fájl kiválasztása',	
+    	'select_file' => 'Fájl kiválasztása',
     	'document_name' => 'Dokumentum neve',
-    
+
     ],
 
 	'operating_systems' => [
@@ -592,7 +593,7 @@ return [
     	'dark' => 'Sötét',
     	'language' => 'Nyelv',
 		'default' => 'Alapértelmezett',
-    
+
     ],
 
 	'login' => [
@@ -762,7 +763,7 @@ return [
     	'user_permission_revoke_api_tokens' => 'API tokenek visszavonása',
     	'forgot_password_email_sent_out' => 'Kiküldésre került egy email. Kattints a hivatkozásra az új jelszavad beállításához.',
     	'set_new_password_subject' => 'Új jelszó beállítása.',
-		
+
     ],
 
 	'global_settings' => [
@@ -806,7 +807,7 @@ return [
     	'hu' => 'Magyar',
     	'en' => 'English',
     	'es' => 'Espanol',
-		
+
     ],
 
 ];

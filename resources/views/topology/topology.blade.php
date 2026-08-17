@@ -134,16 +134,37 @@
 
             s.refresh();
 
+            var nodeCount = len;
+
+            var dynamicScalingRatio, dynamicSlowDown, dynamicGravity, dynamicTheta;
+
+            if (nodeCount > 2000) {
+                dynamicScalingRatio = Math.min(250, 10 + nodeCount / 25);
+                dynamicSlowDown = 2;
+                dynamicGravity = 0.3;
+                dynamicTheta = 0.9;
+            } else if (nodeCount > 100) {
+                dynamicScalingRatio = Math.min(60, 10 + nodeCount / 15);
+                dynamicSlowDown = 3;
+                dynamicGravity = 0.5;
+                dynamicTheta = 0.6;
+            } else {
+                dynamicScalingRatio = 10;
+                dynamicSlowDown = 10;
+                dynamicGravity = 1;
+                dynamicTheta = 0.6;
+            }
+
             var atlasSettings = {
-            	gravity: 1,
-                scalingRatio: 10,
+                gravity: dynamicGravity,
+                scalingRatio: dynamicScalingRatio,
                 strongGravityMode: false,
                 linLogMode: true,
                 outboundAttractionDistribution: true,
                 adjustSizes: true,
                 barnesHutOptimize: true,
-                barnesHutTheta: 0.6,
-                slowDown: 10
+                barnesHutTheta: dynamicTheta,
+                slowDown: dynamicSlowDown
             };
 
             s.startForceAtlas2(atlasSettings);

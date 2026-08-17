@@ -14,6 +14,7 @@ return [
     	'ip' => 'A valid IP Address is required',
     	'required_without_all' => 'At least one of these fields is required.',
     	'regex' => 'Follow the required pattern for this field.',
+        'unique' => 'This value is already taken, it must be unique.',
     	'email' => 'A valid email address is required.',
 		'email_not_found' => 'Email address not found.',
     	'email_token_found' => 'A reset email already sent.',
@@ -68,7 +69,7 @@ return [
     	'read_more' => 'Read More',
 		'upload' => 'Upload',
     	'download' => 'Download',
-    	'collect_data' => 'Collect Data',	
+    	'collect_data' => 'Collect Data',
 		'update_data' => 'Update Data',
     	'create_filter' => 'Create Filter',
 		'yes' => 'Yes',
@@ -79,7 +80,7 @@ return [
 		'global_settings_not_found' => 'There is no global setting option yet.',
     	'global_settings_log_not_found' => 'There are no global settings events yet.',
     ],
-	
+
 	'nav' => [
     	'dashboard' => 'Dashboard',
     	'workstations' => 'Workstations',
@@ -106,7 +107,7 @@ return [
     	'updates' => 'Updates',
     	'api_tokens' => 'API Tokens',
     ],
-	
+
 	'layout' => [
 		'find_workstation' => 'Find Workstation',
 		'intervention' => 'Add Intervention',
@@ -527,7 +528,7 @@ return [
     	'date_and_time' => 'Date/Time',
     	'delete_script_from_database' => 'Delete Script from Database',
     	'are_you_sure_delete_script' => 'Are you sure you want to delete this script from database?',
-    	
+
     ],
 
 	'articles' => [
@@ -551,7 +552,7 @@ return [
     	'send' => 'Send',
     	'your_comment' => 'Your Comment',
     	'tags' => 'Tags',
-		
+
     ],
 
 	'documents' => [
@@ -568,9 +569,9 @@ return [
     	'actions' => 'Actions',
     	'archives' => 'Archives',
     	'restore' => 'Restore',
-    	'select_file' => 'Select File',	
+    	'select_file' => 'Select File',
     	'document_name' => 'Document Name',
-    
+
     ],
 
 	'operating_systems' => [
@@ -592,7 +593,7 @@ return [
     	'dark' => 'Dark',
     	'language' => 'Language',
 		'default' => 'Default',
-    
+
     ],
 
 	'login' => [
@@ -644,7 +645,7 @@ return [
     	'actions' => 'Actions',
     	'upload_file' => 'Upload a File',
     	'select_file' => 'Select a File',
-    	'are_you_sure_delete_file' => 'Are you sure you want to delete this file?',	
+    	'are_you_sure_delete_file' => 'Are you sure you want to delete this file?',
     ],
 
 	'updates' => [
@@ -762,7 +763,7 @@ return [
     	'user_permission_revoke_api_tokens' => 'Revoke API Tokens',
     	'forgot_password_email_sent_out' => 'An email has been sent. Click the link to set your new password.',
     	'set_new_password_subject' => 'Set a new password.',
-		
+
     ],
 
 	'global_settings' => [
@@ -806,7 +807,7 @@ return [
     	'hu' => 'Magyar',
     	'en' => 'English',
     	'es' => 'Espanol',
-		
+
     ],
 
 ];
