@@ -23,6 +23,8 @@ return [
     	'password_confirm' => 'A két jelszómező tartalmának egyeznie kell.',
     	'username_unique' => "Ezt a nevet nem választhatod.",
     	'email_unique' => "Ezt az email címet nem választhatod.",
+        'current_password_incorrect' => 'A megadott jelenlegi jelszó helytelen.',
+
     ],
 
 	'button' => [
@@ -593,6 +595,14 @@ return [
     	'dark' => 'Sötét',
     	'language' => 'Nyelv',
 		'default' => 'Alapértelmezett',
+        'change_password' => 'Jelszó módosítása',
+        'current_password' => 'Jelenlegi jelszó',
+        'new_password' => 'Új jelszó',
+        'new_password_confirm' => 'Új jelszó megerősítése',
+        'password_changed_success' => 'A jelszó sikeresen módosítva.',
+        'change_email' => 'Email cím módosítása',
+        'new_email' => 'Új email cím',
+        'email_changed_success' => 'Az email cím sikeresen módosítva.',
 
     ],
 

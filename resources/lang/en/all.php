@@ -23,6 +23,8 @@ return [
     	'password_confirm' => 'Both password field must be the same.',
     	'username_unique' => "You cannot choose this name.",
     	'email_unique' => "You cannot choose this email.",
+        'current_password_incorrect' => 'The current password you entered is incorrect.',
+
     ],
 
 	'button' => [
@@ -593,6 +595,14 @@ return [
     	'dark' => 'Dark',
     	'language' => 'Language',
 		'default' => 'Default',
+        'change_password' => 'Change password',
+        'current_password' => 'Current password',
+        'new_password' => 'New password',
+        'new_password_confirm' => 'Confirm new password',
+        'password_changed_success' => 'Password changed successfully.',
+        'change_email' => 'Change email address',
+        'new_email' => 'New email address',
+        'email_changed_success' => 'Email address changed successfully.',
 
     ],
 

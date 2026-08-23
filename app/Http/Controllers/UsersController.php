@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Users;
 use App\Models\UserPermissions;
 use App\Models\UserActivities;
@@ -25,6 +27,12 @@ class UsersController extends Controller
         	case "switchLanguage":
         		$this->switchLanguage($request);
         		break;
+            case "changePassword":
+                return $this->changePassword($request);
+                break;
+            case "changeEmail":
+                return $this->changeEmail($request);
+                break;
         	default:
         		break;
         }
@@ -540,6 +548,67 @@ class UsersController extends Controller
         $user->save();
         return "OK";
 
+    }
+
+    public function changePassword($request) {
+
+        $user = Users::where("id", \Auth::user()->id)->first();
+
+        if (!Hash::check($request["current_password"], $user->password)) {
+            return response()->json(["success" => false, "message" => __('all.validation.current_password_incorrect')]);
+        }
+
+        if (strlen($request["password"]) < 8) {
+            return response()->json(["success" => false, "message" => __('all.validation.min_8')]);
+        }
+
+        if ($request["password"] !== $request["password_confirmation"]) {
+            return response()->json(["success" => false, "message" => __('all.validation.password_confirm')]);
+        }
+
+        $user->password = bcrypt($request["password"]);
+        $user->save();
+
+        $this->logUserActivity($user->id, "password changed", null, $request->getClientIp(), $request->userAgent());
+
+        return response()->json(["success" => true, "message" => __('all.user_settings.password_changed_success')]);
+
+    }
+
+    public function changeEmail($request) {
+
+        $user = Users::where("id", \Auth::user()->id)->first();
+
+        if (!Hash::check($request["current_password"], $user->password)) {
+            return response()->json(["success" => false, "message" => __('all.validation.current_password_incorrect')]);
+        }
+
+        if (!filter_var($request["email"], FILTER_VALIDATE_EMAIL)) {
+            return response()->json(["success" => false, "message" => __('all.validation.email')]);
+        }
+
+        if (Users::where("email", $request["email"])->where("id", "!=", $user->id)->exists()) {
+            return response()->json(["success" => false, "message" => __('all.validation.email_unique')]);
+        }
+
+        $oldEmail = $user->email;
+        $user->email = $request["email"];
+        $user->save();
+
+        $this->logUserActivity($user->id, "email changed", $oldEmail . " -> " . $request["email"], $request->getClientIp(), $request->userAgent());
+
+        return response()->json(["success" => true, "message" => __('all.user_settings.email_changed_success')]);
+
+    }
+
+    private function logUserActivity($userId, $event, $description = null, $ip = null, $browser = null) {
+        $activity = new UserActivities();
+        $activity->user_id = $userId;
+        $activity->activity = $event;
+        $activity->description = $description;
+        $activity->ip = $ip;
+        $activity->browser = $browser;
+        $activity->save();
     }
 
 }

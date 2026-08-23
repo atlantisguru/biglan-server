@@ -23,6 +23,8 @@ return [
     	'password_confirm' => 'Ambos campos de contraseña deben coincidir.',
     	'username_unique' => "No puede elegir este nombre.",
     	'email_unique' => "No puede elegir este correo electrónico.",
+        'current_password_incorrect' => 'La contraseña actual introducida es incorrecta.',
+
     ],
 
 	'button' => [
@@ -593,6 +595,14 @@ return [
     	'dark' => 'Oscuro',
     	'language' => 'Idioma',
 		'default' => 'Predeterminado',
+        'change_password' => 'Cambiar contraseña',
+        'current_password' => 'Contraseña actual',
+        'new_password' => 'Nueva contraseña',
+        'new_password_confirm' => 'Confirmar nueva contraseña',
+        'password_changed_success' => 'Contraseña cambiada correctamente.',
+        'change_email' => 'Cambiar dirección de correo',
+        'new_email' => 'Nueva dirección de correo',
+        'email_changed_success' => 'Dirección de correo cambiada correctamente.',
 
     ],
 
