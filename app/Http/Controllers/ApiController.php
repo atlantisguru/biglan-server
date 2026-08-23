@@ -128,7 +128,7 @@ class ApiController extends Controller
 			$event = $request["event"];
 			$wsid = $request["wsid"];
 
-        	$except = array("identification", "basic", "refresh", "heartbeat", "external", "print", "register", "key exchange");
+        	$except = array("identification", "basic", "heartbeat", "external", "print", "key exchange", "lock", "unlock");
 			if ( !in_array($event, $except) )
 			{
 				$this->storeEvent($request);
@@ -142,16 +142,8 @@ class ApiController extends Controller
             	case "key exchange":
             		return $this->keyExchange($request);
             		break;
-            	/*
-				case "register":
-					return $this->register($request);
-					break;
-				case "refresh":
-					return $this->refresh($request);
-					break;
-                    */
             	case "basic":
-					return $this->refresh($request);
+					return $this->basic($request);
 					break;
             	case "external":
             		return $this->external($request["wsid"], $request);
@@ -222,22 +214,6 @@ class ApiController extends Controller
 		}
 
 		return null;
-	}
-
-	/*
-	 * Generates a 32 character (256bit) token
-	 */
-	public function generateToken($length = 32) {
-
-    	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    	$charactersLength = strlen($characters);
-    	$randomString = '';
-
-    	for ($i = 0; $i < $length; $i++) {
-       		$randomString .= $characters[random_int(0, $charactersLength - 1)];
-    	}
-
-    	return $randomString;
 	}
 
 	/*
@@ -380,8 +356,6 @@ class ApiController extends Controller
     	}
 
     	$saved = $event->save();
-    	$newToken = $this->generateToken();
-    	$workstation->msg_token = $newToken;
     	$workstation->save();
 
 		return ($saved) ? "OK" : null;
@@ -458,27 +432,25 @@ class ApiController extends Controller
             }
 
             if ($count > 0) {
-                $score = floor(($count / count($entities)) * 100);
-                $workstation = Workstations::find($wsid);
-                if ($workstation) {
-                    $workstation->score = $score;
-                    $workstation->save();
-                    return $wsid;
-                }
-            }
+    			$score = floor(($count / count($entities)) * 100);
+    			$updated = Workstations::where('id', $wsid)->update(['score' => $score]);
+    			if ($updated) {
+        			return $wsid;
+    			}
+			}
 
             if ($newCount > 0 && $count === 0) {
-                $score = floor(($newCount / count($entities)) * 100);
+    			$score = floor(($newCount / count($entities)) * 100);
 
-                $workstation = new Workstations();
-                $workstation->uuid = $uuid;
-                $workstation->mboard_serial = $board;
-                $workstation->product_serial = $product;
-                $workstation->first_mac = $mac;
-                $workstation->alias = $hostname;
-                $workstation->score = $score;
-                return $workstation->save() ? $workstation->id : "ERROR";
-            }
+    			$workstation = new Workstations();
+   				$workstation->uuid = $uuid;
+    			$workstation->mboard_serial = $board;
+    			$workstation->product_serial = $product;
+    			$workstation->first_mac = $mac;
+    			$workstation->alias = $hostname;
+    			$workstation->score = $score;
+   				 return $workstation->save() ? $workstation->id : "ERROR";
+			}
 
             return "ERROR";
 
@@ -518,8 +490,6 @@ class ApiController extends Controller
 
         	$saved = $key->save();
         	$workstation = Workstations::where('id', $wsid)->first();
-    		$newToken = $this->generateToken();
-    		$workstation->msg_token = $newToken;
     		$workstation->save();
 
 			return ($saved) ? "OK" : "ERROR";
@@ -530,83 +500,9 @@ class ApiController extends Controller
     }
 
 	/*
-	 * Stores basic data for a workstation
+	 * Inserts or updates basic data for a workstation
 	 */
-	//TODO: Obsolete??????
-	protected function register($payload)
-	{
-
-    	$workstation = new Workstations();
-		$workstation->alias = $payload["hostname"];
-		$workstation->hostname = $payload["hostname"];
-		$workstation->workgroup = $payload["workgroup"];
-		$workstation->os = $payload["os"];
-
-    	if (isset($payload["uuid"])) {
-    		$workstation->uuid = $payload["uuid"];
-        }
-
-    	if (isset($payload["firstmac"])) {
-    		$workstation->first_mac = $payload["firstmac"];
-        }
-
-    	if (isset($payload["motherboardserial"])) {
-    		$workstation->mboard_serial = $payload["motherboardserial"];
-        }
-
-    	if(isset($payload['serial'])) {
-    		$workstation->product_serial = $payload['serial'];
-        }
-
-    	if (isset($payload["os_activated"])) {
-    		$workstation->os_activated = $payload["os_activated"];
-        }
-
-    	if (isset($payload["ram"])) {
-        	if (($payload["ram"] / 1024) > 1024) {
-            	$payload["ram"] = $payload["ram"]/1024;
-            }
-    		$workstation->ram = $payload["ram"];
-        } else {
-        	$workstation->ram = 0;
-        }
-
-		$workstation->ram_slots = $payload["ram_slots"];
-    	$workstation->ram_max_capacity = $payload["ram_max_capacity"];
-    	$workstation->cpu = $payload["cpu"];
-
-    	$cpu = Workstations::where("cpu", $payload["cpu"])->first();
-    	if(isset($cpu)) {
-        	$workstation->cpu_release_date = $cpu->cpu_release_date;
-        }
-
-		$workstation->hardware = $payload["hardware"];
-		$workstation->fast_startup = $payload["fast_startup"];
-		$workstation->wu_checked = $payload["wu_checked"];
-		$workstation->wu_installed = $payload["wu_installed"];
-		$workstation->service_version = $payload["service_version"];
-		$workstation->os_drive_size = $payload["os_drive_size"];
-		$workstation->os_drive_free_space = $payload["os_drive_free_space"];
-		$workstation->bootup_at = $payload["bootup_at"];
-    	$workstation->update_channel = $payload["channel"];
-  		if(isset($payload['serial'])) {
-    		$workstation->serial = $payload['serial'];
-        }
-    	$saved = $workstation->save();
-
-		if (!$saved) {
-
-			return null;
-		} else {
-			return $workstation->id;
-		}
-
-	}
-
-	/*
-	 * Updates basic data for a workstation
-	 */
-	protected function refresh($payload)
+	protected function basic($payload)
 	{
 
     	try {
@@ -714,7 +610,6 @@ class ApiController extends Controller
     			//$workstation->serial = $payload['serial'];
         	}
 
-    		$workstation->msg_token = $this->generateToken();
     		$saved = $workstation->save();
 
 			return ($saved) ? "OK" : null;
@@ -754,12 +649,7 @@ class ApiController extends Controller
 			$this->saveMemories($wsid, $payload["memories"]);
 		}
 
-    	$workstation = Workstations::where('id', $wsid)->first();
-    	$newToken = $this->generateToken();
-    	$workstation->msg_token = $newToken;
-    	$workstation->save();
-
-		return "OK";
+    	return "OK";
 
 	}
 
@@ -779,7 +669,6 @@ class ApiController extends Controller
     	$workstation->anydesk = 0;
     	$workstation->rdp = 0;
     	$workstation->vnc = 0;
-		$workstation->msg_token = $this->generateToken();
 
 		$saved = $workstation->save();
 
@@ -799,8 +688,6 @@ class ApiController extends Controller
 		$workstation->startup_at = Carbon::now()->format("Y-m-d H:i:s");
     	$workstation->heartbeat = Carbon::now()->format("Y-m-d H:i:s");
     	$workstation->idle = 0;
-
-    	$workstation->msg_token = $this->generateToken();
 
     	$saved = $workstation->save();
 
@@ -823,7 +710,6 @@ class ApiController extends Controller
     	if ($workstation === null) {return null;}
 
     	$workstation->idle = $idle;
-    	$workstation->msg_token = $this->generateToken();
     	$workstation->save();
 
         return "OK";
@@ -834,36 +720,32 @@ class ApiController extends Controller
  	 * Every service sends a heartbeat event in every minutes
  	 * It helps identify a network related issue
      */
-	protected function heartbeat($payload)
+		protected function heartbeat($payload)
 	{
+		$id = $payload["wsid"];
+		$date = Carbon::now()->format("Y-m-d H:i:s");
 
-    	$id = $payload["wsid"];
-    	$date = Carbon::now()->format("Y-m-d H:i:s");
-    	$workstation = Workstations::find($id);
+		$startupAt = DB::table('workstations')->where('id', $id)->value('startup_at');
+		if ($startupAt === null && !DB::table('workstations')->where('id', $id)->exists()) {
+			return null;
+		}
 
-    	if ($workstation == null) {return null;}
+		$updateData = ['heartbeat' => $date];
 
-    	if(!isset($workstation->startup_at)) {
+		if (!isset($startupAt)) {
+			$updateData['startup_at'] = $date;
 
-           	$workstation->startup_at = $date;
+			$event = new WsEvents();
+			$event->wsid = $id;
+			$event->level = 0;
+			$event->event = "boot";
+			$event->description = "only heartbeat sent";
+			$event->save();
+		}
 
-        	$event = new WsEvents();
-        	$event->wsid = $id;
-        	$event->level = 0;
-        	$event->event = "boot";
-        	$event->description = "only heartbeat sent";
-        	$event->save();
+		DB::table('workstations')->where('id', $id)->update($updateData);
 
-        }
-
-    	$workstation->heartbeat = $date;
-
-    	$workstation->msg_token = $this->generateToken();
-
-    	$saved = $workstation->save();
-
-		return ($saved) ? "OK" : null;
-
+		return "OK";
 	}
 
 	/*
@@ -881,7 +763,6 @@ class ApiController extends Controller
 			$workstation->anydesk = 0;
 		}
 
-    	$workstation->msg_token = $this->generateToken();
     	$saved = $workstation->save();
 
 		return ($saved) ? "OK" : null;
@@ -903,7 +784,6 @@ class ApiController extends Controller
 			$workstation->teamviewer = 0;
 		}
 
-    	$workstation->msg_token = $this->generateToken();
     	$saved = $workstation->save();
 
 		return ($saved) ? "OK" : null;
@@ -925,7 +805,6 @@ class ApiController extends Controller
 			$workstation->vnc = 0;
 		}
 
-    	$workstation->msg_token = $this->generateToken();
     	$saved = $workstation->save();
 
 		return ($saved) ? "OK" : null;
@@ -948,7 +827,6 @@ class ApiController extends Controller
 			}
 		}
 
-    	$workstation->msg_token = $this->generateToken();
     	$saved = $workstation->save();
 
 		return ($saved) ? "OK" : null;
@@ -998,9 +876,7 @@ class ApiController extends Controller
 
             }
 
-            $newToken = $this->generateToken();
-    		$workstation->msg_token = $newToken;
-    		$workstation->save();
+            $workstation->save();
 
 			return "OK";
 
@@ -1012,94 +888,105 @@ class ApiController extends Controller
      */
 	protected function saveIPAddresses($wsid, $IPAddresses) {
 
-    	$wsid = (int)$wsid;
+		$wsid = (int)$wsid;
 
-    	if ($wsid == 0 || $wsid == null) {return null;}
+		if ($wsid == 0 || $wsid == null) {return null;}
 
-        $storedIpAddresses = WsIps::where('wsid', $wsid)->pluck('ip')->toArray();
-    	$arrivedIpAddresses = explode(',', $IPAddresses);
-    	$workstation = Workstations::where('id', $wsid)->first();
+		$storedIpAddresses = WsIps::where('wsid', $wsid)->pluck('ip')->toArray();
+		$arrivedIpAddresses = explode(',', $IPAddresses);
+		$workstation = Workstations::where('id', $wsid)->first();
 
-        if (!isset($storedIpAddresses)) {
-        	$storedIpAddresses = array();
-        }
+		if (!isset($storedIpAddresses)) {
+			$storedIpAddresses = array();
+		}
 
-        if (!isset($arrivedIpAddresses)) {
-        	$arrivedIpAddresses = array();
-        }
+		if (!isset($arrivedIpAddresses)) {
+			$arrivedIpAddresses = array();
+		}
 
-        //új ip címek
-    	$newIpAddresses = array_diff($arrivedIpAddresses, $storedIpAddresses);
-    	if (count($newIpAddresses) > 0) {
-            WsEvents::create([
-           		'wsid' => $wsid,
-        		'event' => 'new ip address',
-        		'description' => implode(', ', $newIpAddresses)
-        	]);
+		$newIpAddresses = array_diff($arrivedIpAddresses, $storedIpAddresses);
+		if (count($newIpAddresses) > 0) {
+			WsEvents::create([
+				'wsid' => $wsid,
+				'event' => 'new ip address',
+				'description' => implode(', ', $newIpAddresses)
+			]);
 
-            foreach($newIpAddresses as $item) {
-        		WsIps::create([
-            		'wsid' => $wsid,
-                	'ip' => $item
-            	]);
+			// Egyetlen lekérdezés: mely új IP-k ütköznek MÁS munkaállomással.
+			$conflicts = WsIps::where('wsid', '!=', $wsid)
+				->whereIn('ip', $newIpAddresses)
+				->orderBy('created_at', 'ASC')
+				->get()
+				->keyBy('ip');
 
-                $sameIpAddress = WsIps::where('wsid', '!=', $wsid)->where('ip', $item)->orderBy('created_at', 'ASC')->first();
-                if( isset($sameIpAddress) ) {
-                	WsEvents::create([
-           				'wsid' => $wsid,
-        				'event' => 'ip conflict',
-        				'description' => $item . ' already registered to ' . $sameIpAddress->workstation()->alias
-        			]);
-                }
+			// Egyetlen lekérdezés: mely új IP-k szerepelnek már az alhálózat-nyilvántartásban.
+			$subnetEntries = SubnetIps::whereIn('ip', $newIpAddresses)->get()->keyBy('ip');
 
-                	$storedIpAddress = SubnetIps::where('ip', $item)->first();
+			foreach($newIpAddresses as $item) {
+				WsIps::create([
+					'wsid' => $wsid,
+					'ip' => $item
+				]);
 
-                    if( isset($storedIpAddress) ) {
-                    	if( $storedIpAddress->alias != $workstation->alias ) {
-                        	SubnetIpChanges::Create([
-                            	'ip' => $item,
-                                'event' => 'Alias: ' . $storedIpAddress->alias . ' => ' . $workstation->alias . ' [SYSTEM]'
-                            ]);
+				$sameIpAddress = $conflicts->get($item);
+				if (isset($sameIpAddress)) {
+					WsEvents::create([
+						'wsid' => $wsid,
+						'event' => 'ip conflict',
+						'description' => $item . ' already registered to ' . $sameIpAddress->workstation()->alias
+					]);
+				}
 
-                            $storedIpAddress->alias = $workstation->alias;
-                            $storedIpAddress->save();
-                        }
-                    } else {
-                    	SubnetIps::create([
-                        	'ip' => $item,
-                            'alias' => $workstation->alias
-                        ]);
-                    }
-            }
-        }
+				$storedIpAddress = $subnetEntries->get($item);
 
-    	//megszüntetendő ip címek
-    	$removeableIpAddresses = array_diff($storedIpAddresses, $arrivedIpAddresses);
-    	if (count($removeableIpAddresses) > 0) {
-    		$items = WsIps::where('wsid', $wsid)->whereIn('ip', $removeableIpAddresses);
+				if (isset($storedIpAddress)) {
+					if ($storedIpAddress->alias != $workstation->alias) {
+						SubnetIpChanges::Create([
+							'ip' => $item,
+							'event' => 'Alias: ' . $storedIpAddress->alias . ' => ' . $workstation->alias . ' [SYSTEM]'
+						]);
 
-            foreach($items as $item) {
-            	$storedIpAddress = SubnetIps::where('ip', $item->ip)->first();
-            	if (isset($storedIpAddress)) {
-            		SubnetIpChanges::Create([
-                    	'ip' => $item->ip,
-                		'event' => $item->workstation()->alias . ' => üres [SYSTEM]'
-                	]);
-                	$storedIpAddress->alias = 'üres (' . $item->workstation()->alias . ')';
-                	$storedIpAddress->save();
-                }
-            }
+						$storedIpAddress->alias = $workstation->alias;
+						$storedIpAddress->save();
+					}
+				} else {
+					SubnetIps::create([
+						'ip' => $item,
+						'alias' => $workstation->alias
+					]);
+				}
+			}
+		}
 
-            $items->delete();
+		$removeableIpAddresses = array_diff($storedIpAddresses, $arrivedIpAddresses);
+		if (count($removeableIpAddresses) > 0) {
+			$items = WsIps::where('wsid', $wsid)->whereIn('ip', $removeableIpAddresses)->get();
 
-            WsEvents::create([
-           		'wsid' => $wsid,
-        		'event' => 'ip address removed',
-        		'description' => implode(', ', $removeableIpAddresses)
-        	]);
-        }
+			// Egyetlen lekérdezés a törlendő IP-khez tartozó alhálózat-bejegyzésekhez is.
+			$removeSubnetEntries = SubnetIps::whereIn('ip', $removeableIpAddresses)->get()->keyBy('ip');
 
-        return;
+			foreach($items as $item) {
+				$storedIpAddress = $removeSubnetEntries->get($item->ip);
+				if (isset($storedIpAddress)) {
+					SubnetIpChanges::Create([
+						'ip' => $item->ip,
+						'event' => $item->workstation()->alias . ' => üres [SYSTEM]'
+					]);
+					$storedIpAddress->alias = 'üres (' . $item->workstation()->alias . ')';
+					$storedIpAddress->save();
+				}
+			}
+
+			WsIps::where('wsid', $wsid)->whereIn('ip', $removeableIpAddresses)->delete();
+
+			WsEvents::create([
+				'wsid' => $wsid,
+				'event' => 'ip address removed',
+				'description' => implode(', ', $removeableIpAddresses)
+			]);
+		}
+
+		return;
 
 	}
 
@@ -1165,20 +1052,22 @@ class ApiController extends Controller
 	protected function saveUserAccounts($wsid, $userAccounts) {
 		$accounts = json_decode(utf8_encode($userAccounts));
 		if(!isset($accounts) || $accounts == "") {
-        	return null;
-        }
-		//Ha az adott felhasználói fiók még nincs regisztrálva a munkaállomáshoz, akkor letárolás
-		foreach($accounts as $account) {
-			$user = WsUserAccounts::where("wsid", $wsid)->where("sid", $account->sid)->first();
+			return null;
+		}
 
-        	if (!isset($user)) {
+		$existingAccounts = WsUserAccounts::where("wsid", $wsid)->get()->keyBy('sid');
+
+		foreach($accounts as $account) {
+			$user = $existingAccounts->get($account->sid);
+
+			if (!isset($user)) {
 				$user = new WsUserAccounts();
 				$user->wsid = $wsid;
 				$user->username = $account->username;
 				$user->is_admin = $account->is_admin;
 				$user->sid = $account->sid;
 				$saved = $user->save();
-				//új felhasználói fiók rögzítése esemény
+
 				if ($saved) {
 					$event = new WsEvents();
 					$event->wsid = $wsid;
@@ -1187,7 +1076,6 @@ class ApiController extends Controller
 					$event->save();
 				}
 			} else {
-				//ha megváltozott a felhasználói fiók típusa
 				if ($user->is_admin != $account->is_admin) {
 					$user->is_admin = $account->is_admin;
 
@@ -1204,7 +1092,6 @@ class ApiController extends Controller
 					$event->save();
 				}
 
-				//ha megváltozott a felhasználói fiók neve
 				if ($user->username != $account->username) {
 
 					$event = new WsEvents();
@@ -1220,19 +1107,17 @@ class ApiController extends Controller
 
 			}
 
-
 		}
-		//Ellenőrizni, hogy van-e olyan felhasználói fiók letárolva, amit már nem küld a munkaállomás
-		//Jelenleg letárolt felhasználói fiókok (beleértve a már újonnan regisztráltakat is)
-		$oldUserAccounts = WsUserAccounts::where("wsid", $wsid)->pluck('sid')->all();
-		$newUserAccounts =	array_column($accounts, "sid");
+
+		$oldUserAccounts = $existingAccounts->keys()->all();
+		$newUserAccounts = array_column($accounts, "sid");
 
 		$deleteable = array_diff($oldUserAccounts, $newUserAccounts);
 
 		if (count($deleteable) > 0) {
 			foreach($deleteable as $deleteUserAccount) {
-				$deleteUser = WsUserAccounts::where("wsid", $wsid)->where("sid", $deleteUserAccount)->first();
-				$username = $deleteUser->name;
+				$deleteUser = $existingAccounts->get($deleteUserAccount);
+				$username = $deleteUser->username;
 				if ($deleteUser->delete()) {
 					$event = new WsEvents();
 					$event->wsid = $wsid;
@@ -1249,63 +1134,60 @@ class ApiController extends Controller
  	 * Storing Printers of a workstation
      */
 	protected function savePrinters($wsid, $printersJson) {
-		$printers = json_decode(utf8_encode($printersJson));
-		if(!isset($printers) || $printers == "") {
+	    $printers = json_decode(utf8_encode($printersJson));
+	    if(!isset($printers) || $printers == "") {
         	return null;
-        }
-		//Ha az adott nyomtató még nincs regisztrálva a munkaállomáshoz, akkor letárolás
-		foreach($printers as $pr) {
-			$printer = WsPrinters::where("wsid", $wsid)->where("name", $pr->name)->first();
-			if (!isset($printer)) {
-				$printer = new WsPrinters();
-				$printer->wsid = $wsid;
-				$printer->name = $pr->name;
-				$printer->port = $pr->port;
-				$printer->default = $pr->default;
-				$printer->network = $pr->network;
-				$printer->shared = $pr->shared;
-				$saved = $printer->save();
-				//új nyomtató rögzítése esemény
-				if ($saved) {
-					$event = new WsEvents();
-					$event->wsid = $wsid;
-					$event->event = "new printer";
-					$event->description = $pr->name;
-					$event->save();
-				}
-			} else {
-				$printer->wsid = $wsid;
-				$printer->name = $pr->name;
-				$printer->port = $pr->port;
-				$printer->default = $pr->default;
-				$printer->network = $pr->network;
-				$printer->shared = $pr->shared;
-				$saved = $printer->save();
-			}
+ 	   	}
 
-		}
+    	$existingPrinters = WsPrinters::where("wsid", $wsid)->get()->keyBy('name');
 
-    	//Ellenőrizni, hogy van-e olyan nyomtató letárolva, amit már nem küld a munkaállomás
-		//Jelenleg letárolt nyomtatók (beleértve a már újonnan regisztráltakat is)
-		$oldPrinters = WsPrinters::where("wsid", $wsid)->pluck('name')->all();
-		$newPrinters = array_column($printers, "name");
+    	foreach ($printers as $pr) {
+        	$printer = $existingPrinters->get($pr->name);
 
-		$deleteable = array_diff($oldPrinters, $newPrinters);
+        	if (!isset($printer)) {
+            	$printer = new WsPrinters();
+            	$printer->wsid = $wsid;
+            	$printer->name = $pr->name;
+            	$printer->port = $pr->port;
+            	$printer->default = $pr->default;
+            	$printer->network = $pr->network;
+            	$printer->shared = $pr->shared;
+            	$saved = $printer->save();
 
-		if (count($deleteable) > 0) {
-			foreach($deleteable as $deletePrinter) {
-				$deleting = WsPrinters::where("wsid", $wsid)->where("name", $deletePrinter)->first();
-				$printer = $deleting->name;
-				if ($deleting->delete()) {
-					$event = new WsEvents();
-					$event->wsid = $wsid;
-					$event->event = "printer removed";
-					$event->description = $printer;
-					$event->save();
-				}
-			}
-		}
-		return;
+            	if ($saved) {
+                	$event = new WsEvents();
+                	$event->wsid = $wsid;
+                	$event->event = "new printer";
+                	$event->description = $pr->name;
+                	$event->save();
+            	}
+        	} else {
+            	$printer->port = $pr->port;
+            	$printer->default = $pr->default;
+            	$printer->network = $pr->network;
+            	$printer->shared = $pr->shared;
+            	$printer->save();
+        	}
+    	}
+
+    	$oldPrinters = $existingPrinters->keys()->all();
+    	$newPrinters = array_column($printers, "name");
+    	$deleteable = array_diff($oldPrinters, $newPrinters);
+
+    	if (count($deleteable) > 0) {
+        	foreach ($deleteable as $deletePrinterName) {
+            	$deleting = $existingPrinters->get($deletePrinterName);
+            	if ($deleting->delete()) {
+                	$event = new WsEvents();
+                	$event->wsid = $wsid;
+                	$event->event = "printer removed";
+                	$event->description = $deletePrinterName;
+                	$event->save();
+            	}
+        	}
+    	}
+
+   	 return;
 	}
 
 	/*
@@ -1314,9 +1196,10 @@ class ApiController extends Controller
 	protected function saveMemories($wsid, $memoriesJson) {
 		$memories = json_decode(utf8_encode($memoriesJson));
 
-		//Ha az adott RAM még nincs regisztrálva a munkaállomáshoz, akkor letárolás
+		$existingMemories = WsMemories::where("wsid", $wsid)->get()->keyBy('serial');
+
 		foreach($memories as $memory) {
-			$ram = WsMemories::where("wsid", $wsid)->where("serial", $memory->serial)->first();
+			$ram = $existingMemories->get($memory->serial);
 			if (!isset($ram)) {
 				$ram = new WsMemories();
 				$ram->wsid = $wsid;
@@ -1327,7 +1210,7 @@ class ApiController extends Controller
 				$ram->speed = $memory->speed;
 				$ram->type = $memory->type;
 				$saved = $ram->save();
-				//új RAM rögzítése esemény
+
 				if ($saved) {
 					$event = new WsEvents();
 					$event->wsid = $wsid;
@@ -1337,16 +1220,15 @@ class ApiController extends Controller
 				}
 			}
 		}
-		//Ellenőrizni, hogy van-e olyan RAM letárolva, amit már nem küld a munkaállomás
-		//Jelenleg letárolt RAM-ok (beleértve a már újonnan regisztráltakat is)
-		$oldMemories = WsMemories::where("wsid", $wsid)->pluck('serial')->all();
+
+		$oldMemories = $existingMemories->keys()->all();
 		$newMemories = array_column($memories, "serial");
 
 		$deleteable = array_diff($oldMemories, $newMemories);
 
 		if (count($deleteable) > 0) {
 			foreach($deleteable as $deleteMemory) {
-				$deleting = WsMemories::where("wsid", $wsid)->where("serial", $deleteMemory)->first();
+				$deleting = $existingMemories->get($deleteMemory);
 				$memory = $deleting->manufacturer . " " . $deleting->capacity . "MB (" . $deleting->serial . ")";
 				if ($deleting->delete()) {
 					$event = new WsEvents();
@@ -1366,10 +1248,11 @@ class ApiController extends Controller
 	protected function saveMonitors($wsid, $monitorsJson) {
 		$monitors = json_decode(utf8_encode($monitorsJson));
 
-    	//Ha az adott monitor még nincs regisztrálva a munkaállomáshoz, akkor letárolás
 		if(isset($monitors)) {
-    		foreach($monitors as $monitor) {
-				$display = WsMonitors::where("wsid", $wsid)->where("instance_name", $monitor->instance_name)->first();
+			$existingMonitors = WsMonitors::where("wsid", $wsid)->get()->keyBy('instance_name');
+
+			foreach($monitors as $monitor) {
+				$display = $existingMonitors->get($monitor->instance_name);
 				if (!isset($display)) {
 					$display = new WsMonitors();
 					$display->wsid = $wsid;
@@ -1377,9 +1260,9 @@ class ApiController extends Controller
 					$display->manufacturer = $monitor->manufacturer;
 					$display->name = $monitor->name;
 					$display->serial = $monitor->serial;
-                	$display->year = $monitor->year;
+					$display->year = $monitor->year;
 					$saved = $display->save();
-					//új monitor rögzítése esemény
+
 					if ($saved) {
 						$event = new WsEvents();
 						$event->wsid = $wsid;
@@ -1390,26 +1273,24 @@ class ApiController extends Controller
 				}
 			}
 
-			//Ellenőrizni, hogy van-e olyan monitor letárolva, amit már nem küld a munkaállomás
-			//Jelenleg letárolt monitorok (beleértve a már újonnan regisztráltakat is)
-			$oldMonitors = WsMonitors::where("wsid", $wsid)->pluck('instance_name')->all();
+			$oldMonitors = $existingMonitors->keys()->all();
 			$newMonitors = array_column($monitors, "instance_name");
 			$deleteable = array_diff($oldMonitors, $newMonitors);
 
-        	if (count($deleteable) > 0) {
+			if (count($deleteable) > 0) {
 				foreach($deleteable as $deleteMonitor) {
-					$deleting = WsMonitors::where("wsid", $wsid)->where("instance_name", $deleteMonitor)->first();
+					$deleting = $existingMonitors->get($deleteMonitor);
 					$monitor = $deleting->manufacturer . " " . $deleting->name . " (S/N:" . $deleting->serial . ", Azon:" . $deleting->inventory_id . ")";
-            			if ($deleting->delete()) {
-							$event = new WsEvents();
-							$event->wsid = $wsid;
-							$event->event = "monitor removed";
-							$event->description = $monitor;
-							$event->save();
-						}
+					if ($deleting->delete()) {
+						$event = new WsEvents();
+						$event->wsid = $wsid;
+						$event->event = "monitor removed";
+						$event->description = $monitor;
+						$event->save();
+					}
 				}
 			}
-        }
+		}
 		return;
 	}
 
@@ -1419,43 +1300,44 @@ class ApiController extends Controller
 	protected function saveHarddrives($wsid, $disks) {
 		$harddrives = json_decode($disks);
 		if(!isset($harddrives) || $harddrives == "") {
-        	return null;
-        }
+			return null;
+		}
 
-    	//if the given drive not registered yet, store it
+		$existingHarddrives = WsHarddrives::where("wsid", $wsid)->get()->keyBy('serial');
+
 		foreach($harddrives as $harddrive) {
-			$drive = WsHarddrives::where("wsid", $wsid)->where("serial", $harddrive->serial)->first();
+			$drive = $existingHarddrives->get($harddrive->serial);
 
-        	switch($harddrive->status) {
-            	case "0":
-            		$harddrive->status = "OK";
-            		break;
-            	case "1":
-            		$harddrive->status = "Pred Fail";
-            		break;
-            	default:
-            		$harddrive->status = "Fail";
-            		break;
-           	}
+			switch($harddrive->status) {
+				case "0":
+					$harddrive->status = "OK";
+					break;
+				case "1":
+					$harddrive->status = "Pred Fail";
+					break;
+				default:
+					$harddrive->status = "Fail";
+					break;
+			}
 
-        	if (isset($harddrive->mediatype)) {
-        		switch($harddrive->mediatype) {
-               		case "3":
-               			$harddrive->mediatype = "HDD";
-               			break;
-               		case "4":
-               			$harddrive->mediatype = "SSD";
-               			break;
-               		case "5":
-               			$harddrive->mediatype = "SCM";
-               			break;
-               		default:
-               			$harddrive->mediatype = "Unspecified";
-               			break;
-            	}
-            } else {
-            	$harddrive->mediatype = "Unspecified";
-            }
+			if (isset($harddrive->mediatype)) {
+				switch($harddrive->mediatype) {
+					case "3":
+						$harddrive->mediatype = "HDD";
+						break;
+					case "4":
+						$harddrive->mediatype = "SSD";
+						break;
+					case "5":
+						$harddrive->mediatype = "SCM";
+						break;
+					default:
+						$harddrive->mediatype = "Unspecified";
+						break;
+				}
+			} else {
+				$harddrive->mediatype = "Unspecified";
+			}
 
 			if (!isset($drive)) {
 				$drive = new WsHarddrives();
@@ -1463,10 +1345,10 @@ class ApiController extends Controller
 				$drive->serial = $harddrive->serial;
 				$drive->model = $harddrive->model;
 				$drive->capacity = $harddrive->capacity;
-            	$drive->mediatype = $harddrive->mediatype;
-                $drive->status = $harddrive->status;
+				$drive->mediatype = $harddrive->mediatype;
+				$drive->status = $harddrive->status;
 				$saved = $drive->save();
-				//registering new drive
+
 				if ($saved) {
 					$event = new WsEvents();
 					$event->wsid = $wsid;
@@ -1475,20 +1357,19 @@ class ApiController extends Controller
 					$event->save();
 				}
 			} else {
-				//if the status of the drive changed
 				if ($drive->status != $harddrive->status) {
 					$drive->status = $harddrive->status;
 
-                	$event = new WsEvents();
+					$event = new WsEvents();
 					$event->wsid = $wsid;
 					$event->event = "harddrive status changed";
 					$event->description = $harddrive->model . " status is " . $harddrive->status;
 					$event->save();
 				}
 
-            	if ($drive->mediatype != $harddrive->mediatype) {
+				if ($drive->mediatype != $harddrive->mediatype) {
 					$drive->mediatype = $harddrive->mediatype;
-                }
+				}
 
 				$drive->save();
 
@@ -1496,16 +1377,15 @@ class ApiController extends Controller
 
 		}
 
-    	$oldHarddrives = WsHarddrives::where("wsid", $wsid)->pluck('serial')->all();
+		$oldHarddrives = $existingHarddrives->keys()->all();
 		$newHarddrives = array_column($harddrives, "serial");
 
 		$deleteable = array_diff($oldHarddrives, $newHarddrives);
 
 		if (count($deleteable) > 0) {
-			foreach($deleteable as $deleteHarddrive) {
-				$deleteHarddrive = WsHarddrives::where("wsid", $wsid)->where("serial", $deleteHarddrive)->first();
-				$hdd = $deleteHarddrive;
-				if ($deleteHarddrive->delete()) {
+			foreach($deleteable as $deleteHarddriveSerial) {
+				$hdd = $existingHarddrives->get($deleteHarddriveSerial);
+				if ($hdd->delete()) {
 					$event = new WsEvents();
 					$event->wsid = $wsid;
 					$event->event = "harddrive removed";
@@ -1516,5 +1396,4 @@ class ApiController extends Controller
 		}
 		return;
 	}
-
 }
