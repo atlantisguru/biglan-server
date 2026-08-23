@@ -59,7 +59,7 @@ return [
         ['name' => 'snmp-read-community', 'type' => 'string', 'value' => 'public', 'description' => 'El valor de la comunidad de lectura de las impresoras de red, utilizado para consultar valores SNMP.'],
         ['name' => 'exclude-admin-username-list', 'type' => 'string', 'value' => '', 'description' => 'Lista de nombres de cuentas de administrador conocidas.'],
         ['name' => 'network-printer-supply-order-link', 'type' => 'string', 'value' => '', 'description' => 'Al introducir la URL, aparecerá un enlace en el Dashboard, en el panel de Impresoras de Red, que llevará directamente al sitio web del proveedor de consumibles.'],
-        ['name' => 'enable-registration', 'type' => 'boolean', 'value' => '1', 'description' => 'Permitir el registro en esta página.'],
+        ['name' => 'enable-registration', 'type' => 'boolean', 'value' => '0', 'description' => 'Permitir el registro en esta página.'],
 
     ],
 	'downloads' => [

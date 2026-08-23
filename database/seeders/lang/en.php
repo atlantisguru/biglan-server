@@ -59,7 +59,7 @@ return [
         ['name' => 'snmp-read-community', 'type' => 'string', 'value' => 'public', 'description' => 'The read community value of network printers, which can be used to query SNMP values.'],
         ['name' => 'exclude-admin-username-list', 'type' => 'string', 'value' => '', 'description' => 'List of known administrator account names.'],
         ['name' => 'network-printer-supply-order-link', 'type' => 'string', 'value' => '', 'description' => 'When you enter the URL, a link will appear on the Dashboard in the Network Printers panel, which will take you directly to the printer accessory partner\'s website.'],
-        ['name' => 'enable-registration', 'type' => 'boolean', 'value' => '1', 'description' => 'Allow registration for this page.'],
+        ['name' => 'enable-registration', 'type' => 'boolean', 'value' => '0', 'description' => 'Allow registration for this page.'],
 
     ],
 	'downloads' => [

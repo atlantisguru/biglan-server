@@ -59,7 +59,7 @@ return [
         ['name' => 'snmp-read-community', 'type' => 'string', 'value' => 'public', 'description' => 'A hálózati nyomtatók read community értéke, amivel az SNMP értékeket le lehet kérdezni.'],
         ['name' => 'exclude-admin-username-list', 'type' => 'string', 'value' => '', 'description' => 'Ismert adminisztrátori fióknevek listája.'],
         ['name' => 'network-printer-supply-order-link', 'type' => 'string', 'value' => '', 'description' => 'Az URL megadása esetén egy hivatkozás jelenik meg a Dashboard-on a Hálózati Nyomtatók panelen, amivel közvetlenül a nyomtatókellékes partner weboldalára lehet ugrani.'],
-        ['name' => 'enable-registration', 'type' => 'boolean', 'value' => '1', 'description' => 'Regisztráció engedélyezése erre az oldalra.'],
+        ['name' => 'enable-registration', 'type' => 'boolean', 'value' => '0', 'description' => 'Regisztráció engedélyezése erre az oldalra.'],
     ],
 	'downloads' => [
         ['alias' => 'BigLanService Installer 2.1.17.0', 'filename' => 'biglanservice-installer-2-1-17-0.msi', 'size' => 3451, 'published' => 1, 'counter' => 0 ],

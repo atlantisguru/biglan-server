@@ -20,7 +20,7 @@ set -Eeuo pipefail
 PROJECT_DIR_DEFAULT="/var/www/biglan"
 REPO_URL="https://github.com/atlantisguru/biglan-server.git"
 LOGFILE="/var/log/biglan-install.log"
-TOTAL_STEPS=21
+TOTAL_STEPS=22
 CURRENT_STEP=0
 
 # Colors (only if the terminal supports them)
@@ -426,7 +426,17 @@ run "cd ${PROJECT_DIR} && sudo -u www-data php artisan db:seed --force"
 success "Default data seeded."
 
 # ------------------------------------------------------------------
-# 19. Schedule the Laravel scheduler CronJob
+# 19. Create the first admin account
+# ------------------------------------------------------------------
+# This command creates the first admin account interactively instead,
+# tying admin creation to having terminal access to the freshly installed server.
+step "Creating the first admin account"
+info "Public self-registration is disabled by default - you need to create the first admin account now."
+cd ${PROJECT_DIR} && sudo -u www-data php artisan biglan:create-admin || info "Admin account already exists, skipping."
+success "Admin account created."
+
+# ------------------------------------------------------------------
+# 20. Schedule the Laravel scheduler CronJob
 # ------------------------------------------------------------------
 # NOTE: the cron job runs under www-data's crontab, not root's. This is a
 # deliberate fix: the official guide schedules it under root (sudo
@@ -443,7 +453,7 @@ EXISTING_CRON="$(crontab -u www-data -l 2>/dev/null | grep -vF "${PROJECT_DIR} &
 success "CronJob configured under www-data (schedule:run every minute)."
 
 # ------------------------------------------------------------------
-# 20. Auto-register the server's local subnet in the IP Table
+# 21. Auto-register the server's local subnet in the IP Table
 # ------------------------------------------------------------------
 # Without at least one subnet registered under IP Table -> New Subnet,
 # BigLan cannot determine whether any workstation is "on the LAN", and
